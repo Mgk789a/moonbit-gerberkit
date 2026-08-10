@@ -1,0 +1,28 @@
+name: MoonBit CI
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install MoonBit 0.10.3+
+        run: |
+          curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
+          echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
+      - name: Format and interface checks
+        run: |
+          moon fmt --check
+          moon check --deny-warn
+          moon info
+          git diff --exit-code
+      - name: Tests
+        run: |
+          moon test --deny-warn
+          moon test --deny-warn --target native
+      - name: CLI smoke test
+        run: moon run --target native cmd/gerberkit
