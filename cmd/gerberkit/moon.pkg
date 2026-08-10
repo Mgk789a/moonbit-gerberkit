@@ -1,0 +1,7 @@
+import {
+  "moonbit-gerberkit/src" @lib,
+}
+
+options(
+  "is-main": true,
+)
