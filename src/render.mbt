@@ -19,7 +19,8 @@ pub fn to_ascii(board : Board, columns? : Int = 48, rows? : Int = 20) -> String 
           for layer in board.layers {
             for shape in layer.shapes {
               match shape {
-                Pad(x=px, y=_, diameter=d) if abs(px - x) < d => hit = true
+                Pad(x=px, y=py, diameter=d) if abs(px - x) < d &&
+                  abs(py - y) < d => hit = true
                 DrillHit(x=px, y=py, diameter=d) if abs(px - x) < d &&
                   abs(py - y) < d => hit = true
                 _ => ()

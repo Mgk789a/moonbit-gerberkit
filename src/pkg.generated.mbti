@@ -6,13 +6,19 @@ pub fn board_bounds(Board) -> BoundingBox?
 
 pub fn board_from_layers(Array[Layer]) -> Board
 
+pub fn board_stats(Board) -> Array[LayerStats]
+
 pub fn check(Board, min_width? : Double, min_drill? : Double) -> Array[Issue]
 
 pub fn convert(Double, from~ : LengthUnit, to~ : LengthUnit) -> Double
 
 pub fn empty_board() -> Board
 
+pub fn issue_count(Report, severity~ : String) -> Int
+
 pub fn kind_to_string(LayerKind) -> String
+
+pub fn layer_stats(Layer) -> LayerStats
 
 pub fn parse_auto(String, name? : String) -> Layer
 
@@ -69,6 +75,16 @@ pub enum LayerKind {
   Drill
   Mechanical
   Unknown
+}
+
+pub struct LayerStats {
+  name : String
+  kind : String
+  shapes : Int
+  segments : Int
+  pads : Int
+  drills : Int
+  regions : Int
 }
 
 pub enum LengthUnit {
