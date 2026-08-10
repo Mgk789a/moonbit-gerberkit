@@ -38,23 +38,6 @@ fn number_after(word : String, key : StringView) -> Double? {
 }
 
 ///|
-fn first_number(word : String) -> Double? {
-  let mut started = false
-  let mut result = ""
-  for c in word {
-    if !started && ((c >= '0' && c <= '9') || c == '-' || c == '+') {
-      started = true
-    }
-    if started && ((c >= '0' && c <= '9') || c == '.' || c == '-' || c == '+') {
-      result = result + c.to_string()
-    } else if started {
-      break
-    }
-  }
-  parse_decimal(result.view())
-}
-
-///|
 fn parse_xy(line : String, unit : LengthUnit) -> (Double, Double)? {
   match (number_after(line, "X"), number_after(line, "Y")) {
     (Some(x), Some(y)) => Some((x * unit.scale_to_mm(), y * unit.scale_to_mm()))
