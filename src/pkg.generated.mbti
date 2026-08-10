@@ -1,0 +1,97 @@
+// Generated using `moon info`, DON'T EDIT IT
+package "moonbit-gerberkit/src"
+
+// Values
+pub fn board_bounds(Board) -> BoundingBox?
+
+pub fn board_from_layers(Array[Layer]) -> Board
+
+pub fn check(Board, min_width? : Double, min_drill? : Double) -> Array[Issue]
+
+pub fn convert(Double, from~ : LengthUnit, to~ : LengthUnit) -> Double
+
+pub fn empty_board() -> Board
+
+pub fn kind_to_string(LayerKind) -> String
+
+pub fn parse_auto(String, name? : String) -> Layer
+
+pub fn parse_excellon(String, name? : String) -> Layer
+
+pub fn parse_gerber(String, name? : String) -> Layer
+
+pub fn report(Board, min_width? : Double, min_drill? : Double) -> Report
+
+pub fn supported_layer_kinds() -> Array[LayerKind]
+
+pub fn supported_shapes() -> Array[Shape]
+
+pub fn to_ascii(Board, columns? : Int, rows? : Int) -> String
+
+pub fn to_json(Report) -> String
+
+pub fn to_svg(Board) -> String
+
+pub fn unit_to_string(LengthUnit) -> String
+
+// Errors
+
+// Types and methods
+pub struct Board {
+  layers : Array[Layer]
+}
+
+pub struct BoundingBox {
+  min_x : Double
+  min_y : Double
+  max_x : Double
+  max_y : Double
+}
+
+pub struct Issue {
+  rule : String
+  severity : String
+  message : String
+  layer : String
+}
+
+pub struct Layer {
+  name : String
+  kind : LayerKind
+  unit : LengthUnit
+  shapes : Array[Shape]
+}
+
+pub enum LayerKind {
+  Copper
+  SolderMask
+  Silkscreen
+  Drill
+  Mechanical
+  Unknown
+}
+
+pub enum LengthUnit {
+  Millimeter
+  Inch
+}
+pub fn LengthUnit::scale_to_mm(Self) -> Double
+
+pub struct Report {
+  board : Board
+  issues : Array[Issue]
+  bbox : BoundingBox?
+}
+
+pub enum Shape {
+  Segment(x1~ : Double, y1~ : Double, x2~ : Double, y2~ : Double, width~ : Double)
+  Pad(x~ : Double, y~ : Double, diameter~ : Double)
+  Flash(x~ : Double, y~ : Double, aperture~ : Int)
+  Region(points~ : Array[(Double, Double)])
+  DrillHit(x~ : Double, y~ : Double, diameter~ : Double)
+}
+
+// Type aliases
+
+// Traits
+
