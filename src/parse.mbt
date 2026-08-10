@@ -71,7 +71,10 @@ pub fn parse_gerber(text : String, name? : String = "gerber") -> Layer {
   for raw in text.split("*") {
     let line = raw.trim().to_owned()
     if line.contains("ADD") {
-      width = first_number(line).unwrap_or(width)
+      match line.find(",") {
+        Some(i) => width = parse_decimal(line[i + 1:]).unwrap_or(width)
+        None => ()
+      }
     }
     if line.contains("D01") {
       match parse_xy(line, unit) {
@@ -115,7 +118,10 @@ pub fn parse_excellon(text : String, name? : String = "drill") -> Layer {
   for raw in text.split("\n") {
     let line = raw.trim().to_owned()
     if line.contains("C") && !line.contains("M48") {
-      diameter = first_number(line).unwrap_or(diameter)
+      match line.find("C") {
+        Some(i) => diameter = parse_decimal(line[i + 1:]).unwrap_or(diameter)
+        None => ()
+      }
     }
     match parse_xy(line, unit) {
       Some((x, y)) =>
