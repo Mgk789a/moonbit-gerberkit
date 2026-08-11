@@ -34,7 +34,7 @@ moon run --target native cmd/gerberkit
 
 ## 参赛材料说明
 
-本仓库为 2026 MoonBit 8 月黑客松准备。开发过程保留可追踪的 Git 提交；CI 覆盖格式化、警告检查、接口信息生成、默认后端与 native 测试。正式提交前请将 `moon.mod` 中的仓库地址替换为实际 GitHub/Gitlink 地址，并确认远程默认分支。
+本仓库为 2026 MoonBit 8 月黑客松准备。开发过程保留可追踪的 Git 提交；CI 覆盖格式化、警告检查、接口信息生成、默认后端与 native 测试。模块地址和仓库地址均已指向正式 GitHub 仓库，并确认远程 `main` 分支。
 
 ## Roadmap
 

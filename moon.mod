@@ -1,10 +1,10 @@
-name = "moonbit-gerberkit"
+name = "Mgk789a/moonbit-gerberkit"
 
 version = "0.1.0"
 
 readme = "README.mbt.md"
 
-repository = "https://github.com/your-account/moonbit-gerberkit"
+repository = "https://github.com/Mgk789a/moonbit-gerberkit"
 
 license = "Apache-2.0"
 

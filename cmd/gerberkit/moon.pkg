@@ -1,5 +1,5 @@
 import {
-  "moonbit-gerberkit/src" @lib,
+  "Mgk789a/moonbit-gerberkit/src" @lib,
 }
 
 options(

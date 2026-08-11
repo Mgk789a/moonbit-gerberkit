@@ -1,5 +1,5 @@
 // Generated using `moon info`, DON'T EDIT IT
-package "moonbit-gerberkit/src"
+package "Mgk789a/moonbit-gerberkit/src"
 
 // Values
 pub fn board_bounds(Board) -> BoundingBox?
