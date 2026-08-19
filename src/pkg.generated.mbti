@@ -8,9 +8,13 @@ import {
 // Values
 pub fn absolute_notation() -> CoordinateNotation
 
+pub fn add_fixture_frame(ToolpathPlan, Rect2, Double) -> ToolpathPlan
+
 pub fn aluminum_fabrication_profile() -> FabricationProfile
 
 pub fn analyze_outline(Board, tolerance? : Double) -> OutlineAnalysis
+
+pub fn analyze_thermal(Board, profile? : ThermalProfile) -> ThermalReport
 
 pub fn aperture(code~ : Int, kind~ : ApertureKind, hole? : Double) -> Aperture
 
@@ -36,6 +40,48 @@ pub fn attribute_scope_name(GerberAttributeScope) -> String
 
 pub fn attribute_scope_prefix(GerberAttributeScope) -> String
 
+pub fn audit_release(Board, ReleaseManifest, ReleasePolicy) -> ReleaseAudit
+
+pub fn audit_release_default(Board) -> ReleaseAudit
+
+pub fn batch_compare(BatchRun, BatchRun) -> BatchComparison
+
+pub fn batch_digest_is_stable(BatchRun) -> Bool
+
+pub fn batch_failure_policy_name(BatchFailurePolicy) -> String
+
+pub fn batch_job(Int, String, BatchJobKind, Board, ReleaseManifest, ReleasePolicy) -> BatchJob
+
+pub fn batch_job_kind_for_path(String) -> BatchJobKind
+
+pub fn batch_job_kind_name(BatchJobKind) -> String
+
+pub fn batch_kind_catalog() -> Array[BatchJobKind]
+
+pub fn batch_policy_catalog() -> Array[BatchFailurePolicy]
+
+pub fn batch_queue_health(BatchQueue) -> Bool
+
+pub fn batch_report_markdown(BatchRun) -> String
+
+pub fn batch_run_cost_summary(BatchRun) -> String
+
+pub fn batch_run_has_duplicate_digests(BatchRun) -> Bool
+
+pub fn batch_run_health(BatchRun) -> Bool
+
+pub fn batch_run_health_report(BatchRun) -> String
+
+pub fn batch_run_manifest_digests(BatchRun) -> Array[String]
+
+pub fn batch_status_catalog() -> Array[BatchStatus]
+
+pub fn batch_status_name(BatchStatus) -> String
+
+pub fn batch_summary(BatchRun) -> BatchSummary
+
+pub fn batch_validate_queue(BatchQueue) -> Array[String]
+
 pub fn benchmark_dfm(FixtureSize, iterations? : Int) -> BenchmarkResult
 
 pub fn benchmark_excellon(FixtureSize, iterations? : Int) -> BenchmarkResult
@@ -45,6 +91,8 @@ pub fn benchmark_parse(FixtureSize, iterations? : Int) -> BenchmarkResult
 pub fn benchmark_render(FixtureSize, iterations? : Int) -> BenchmarkResult
 
 pub fn benchmark_smoke() -> Bool
+
+pub fn best_constraint_set(Board, Array[ConstraintSet]) -> ConstraintProfileComparison?
 
 pub fn best_fabrication_profile(Board) -> FabricationProfile
 
@@ -76,6 +124,8 @@ pub fn board_without_empty_layers(Board) -> Board
 
 pub fn build_connectivity(Board, tolerance? : Double) -> ConnectivityGraph
 
+pub fn build_netlist(Board, labels? : Array[NetLabel], definitions? : Array[NetDefinition], tolerance? : Double) -> Netlist
+
 pub fn check(Board, min_width? : Double, min_drill? : Double) -> Array[Issue]
 
 pub fn check_dfm(Board, config? : DfmConfig) -> Array[Issue]
@@ -86,19 +136,57 @@ pub fn circle2(Point2, Double) -> Circle2
 
 pub fn clamp(Double, low~ : Double, high~ : Double) -> Double
 
+pub fn classify_point_on_segment(Point2, Point2, Point2, tolerance? : Double) -> GeometryBoundary
+
+pub fn clip_polygon_to_rect(Polygon2, Rect2) -> Polygon2?
+
+pub fn clip_ring_to_rect(Ring2, Rect2, tolerance? : Double) -> Ring2
+
 pub fn clockwise_arc_direction() -> ArcDirection
 
+pub fn compact_thermal_profile() -> ThermalProfile
+
+pub fn compare_boards(Board, Board, tolerance? : Double) -> Array[ReleaseChange]
+
+pub fn compare_constraint_sets(Board, Array[ConstraintSet]) -> Array[ConstraintProfileComparison]
+
+pub fn compare_constraints_to_fabrication(Board, FabricationProfile) -> ConstraintProfileComparison
+
 pub fn compare_fabrication_profiles(Board, Array[FabricationProfile]) -> Array[FabricationAssessment]
+
+pub fn compare_release_audits(ReleaseAudit, ReleaseAudit) -> ReleaseDelta
 
 pub fn connectivity_from_board(Board) -> ConnectivityGraph
 
 pub fn connectivity_kind_name(ConnectivityNodeKind) -> String
 
+pub fn conservative_thermal_profile() -> ThermalProfile
+
+pub fn constraint(id~ : String, kind~ : ConstraintKind, severity~ : ConstraintSeverity, limit~ : Double, secondary_limit~ : Double?, layer~ : String?, description~ : String) -> Constraint
+
+pub fn constraint_finding_to_json(ConstraintFinding) -> String
+
+pub fn constraint_kind_name(ConstraintKind) -> String
+
+pub fn constraint_report_to_json(ConstraintReport) -> String
+
+pub fn constraint_report_to_text(ConstraintReport) -> String
+
+pub fn constraint_set_to_json(ConstraintSet) -> String
+
+pub fn constraint_severity_name(ConstraintSeverity) -> String
+
+pub fn constraints_to_csv(ConstraintReport) -> String
+
 pub fn convert(Double, from~ : LengthUnit, to~ : LengthUnit) -> Double
+
+pub fn convex_hull(Array[Point2], tolerance? : Double) -> Ring2
 
 pub fn coordinate_format(integer_digits~ : Int, decimal_digits~ : Int, zero_suppression~ : ZeroSuppression, notation~ : CoordinateNotation, unit~ : LengthUnit) -> CoordinateFormat
 
 pub fn copper_layer_kind() -> LayerKind
+
+pub fn core_layer(index~ : Int, name~ : String, thickness~ : Double, dielectric_constant~ : Double, loss_tangent? : Double, material? : String) -> StackupLayer
 
 pub fn counter_clockwise_arc_direction() -> ArcDirection
 
@@ -110,7 +198,13 @@ pub fn default_dfm_config() -> DfmConfig
 
 pub fn default_excellon_format() -> ExcellonFormat
 
+pub fn default_inspection_profile() -> InspectionProfile
+
 pub fn default_pipeline_options() -> PipelineOptions
+
+pub fn default_stackup_tolerance() -> StackupTolerance
+
+pub fn default_tool_machine_profile() -> ToolMachineProfile
 
 pub fn default_validation_options() -> ValidationOptions
 
@@ -146,13 +240,23 @@ pub fn dfm_warning() -> DfmSeverity
 
 pub fn diagnostic(severity~ : DiagnosticSeverity, code~ : String, message~ : String, line~ : Int, column~ : Int, record~ : String) -> ParseDiagnostic
 
+pub fn differential_estimate_to_json(DifferentialImpedanceEstimate) -> String
+
+pub fn differential_impedance(Double, Double, Double, Double, Double) -> DifferentialImpedanceEstimate
+
+pub fn differential_net_definition(String, Double) -> NetDefinition
+
 pub fn document_layer(GerberDocument) -> Layer
 
 pub fn document_to_json(GerberDocument, include_shapes? : Bool) -> String
 
 pub fn double_range(start~ : Double, end~ : Double) -> DoubleRange
 
+pub fn drill_board(Board, profile? : ToolMachineProfile) -> ToolpathPlan
+
 pub fn drill_layer_kind() -> LayerKind
+
+pub fn drill_path(String, Point2, String, profile? : ToolMachineProfile) -> Toolpath
 
 pub fn drill_tool(code~ : Int, diameter~ : Double) -> DrillTool
 
@@ -161,6 +265,8 @@ pub fn empty_board() -> Board
 pub fn end_of_file_token_kind() -> GerberTokenKind
 
 pub fn error_diagnostic() -> DiagnosticSeverity
+
+pub fn evaluate_constraints(Board, ConstraintSet) -> ConstraintReport
 
 pub fn excellon_format(integer_digits~ : Int, decimal_digits~ : Int, zero_mode~ : ExcellonZeroMode, unit~ : LengthUnit) -> ExcellonFormat
 
@@ -184,6 +290,8 @@ pub fn finding_counts(Array[DfmFinding]) -> (Int, Int, Int)
 
 pub fn fine_pitch_fabrication_profile() -> FabricationProfile
 
+pub fn fine_tool_machine_profile() -> ToolMachineProfile
+
 pub fn fixture_board(FixtureSize, seed? : UInt64) -> Board
 
 pub fn fixture_excellon(FixtureSize) -> String
@@ -204,11 +312,25 @@ pub fn flexible_fabrication_profile() -> FabricationProfile
 
 pub fn format_name(CoordinateFormat) -> String
 
+pub fn geometry_boundary_name(GeometryBoundary) -> String
+
+pub fn geometry_tolerance(distance? : Double, angle? : Double, area? : Double) -> GeometryTolerance
+
 pub fn gerber_attribute(scope~ : GerberAttributeScope, name~ : String, values~ : Array[String], record~ : String) -> GerberAttribute
 
 pub fn gerber_token(kind~ : GerberTokenKind, text~ : String, line~ : Int, column~ : Int) -> GerberToken
 
+pub fn gk_segment_distance(Point2, Point2, Point2) -> Double
+
+pub fn high_current_thermal_profile() -> ThermalProfile
+
 pub fn html_pipeline_format() -> PipelineFormat
+
+pub fn impedance_estimate_to_json(ImpedanceEstimate) -> String
+
+pub fn impedance_in_tolerance(ImpedanceEstimate, Double, Double) -> Bool
+
+pub fn impedance_with_tolerance(ImpedanceEstimate, Double, Double, Double) -> ImpedanceEstimate
 
 pub fn inch_unit() -> LengthUnit
 
@@ -217,6 +339,30 @@ pub fn incremental_notation() -> CoordinateNotation
 pub fn info_diagnostic() -> DiagnosticSeverity
 
 pub fn input_kind_name(InputKind) -> String
+
+pub fn inspect_board(Board, profile? : InspectionProfile, labels? : Array[NetLabel], definitions? : Array[NetDefinition]) -> InspectionReport
+
+pub fn inspection_delta(InspectionStatus, InspectionStatus, Int, Int, Array[String]) -> InspectionDelta
+
+pub fn inspection_finding(InspectionRule, InspectionStatus, String, Double?, Double?, Point2?) -> InspectionFinding
+
+pub fn inspection_finding_to_json(InspectionFinding) -> String
+
+pub fn inspection_gate_to_json(InspectionGate) -> String
+
+pub fn inspection_report_to_json(InspectionReport) -> String
+
+pub fn inspection_report_to_sarif(InspectionReport) -> String
+
+pub fn inspection_report_to_text(InspectionReport) -> String
+
+pub fn inspection_rule_name(InspectionRule) -> String
+
+pub fn inspection_status_name(InspectionStatus) -> String
+
+pub fn intersection_kind_name(SegmentIntersectionKind) -> String
+
+pub fn intersection_to_json(SegmentIntersection) -> String
 
 pub fn is_end_record(String) -> Bool
 
@@ -266,21 +412,85 @@ pub fn max(Double, Double) -> Double
 
 pub fn mechanical_layer_kind() -> LayerKind
 
+pub fn mechanical_stackup_layer(index~ : Int, name~ : String, thickness~ : Double, material? : String) -> StackupLayer
+
 pub fn medium_fixture() -> FixtureSize
 
 pub fn merge_layers(Layer, Layer, name? : String) -> Layer
+
+pub fn mesh_issue_name(MeshIssueKind) -> String
+
+pub fn mesh_issue_to_json(MeshIssue) -> String
+
+pub fn mesh_to_json(Mesh2, include_triangles? : Bool) -> String
+
+pub fn mesh_to_obj(Mesh2) -> String
+
+pub fn mesh_to_points(Mesh2, MeshTriangle) -> Array[Point2]
+
+pub fn mesh_triangle_to_json(MeshTriangle) -> String
+
+pub fn mesh_validation_to_json(MeshValidation) -> String
+
+pub fn mesh_vertex(Int, Point2, Bool) -> MeshVertex
+
+pub fn mesh_vertex_to_json(MeshVertex) -> String
+
+pub fn microstrip_impedance(Double, Double, Double, Double) -> ImpedanceEstimate
 
 pub fn millimeter_unit() -> LengthUnit
 
 pub fn min(Double, Double) -> Double
 
+pub fn net_component_to_json(NetComponent) -> String
+
+pub fn net_definition(name~ : String, class_name~ : String, expected_terminals~ : Int, max_length~ : Double?, min_clearance~ : Double, reference_net~ : Bool) -> NetDefinition
+
+pub fn net_drill_terminal_kind() -> NetTerminalKind
+
+pub fn net_issue_rule_name(NetIssueRule) -> String
+
+pub fn net_issue_severity_name(NetIssueSeverity) -> String
+
+pub fn net_issue_to_json(NetIssue) -> String
+
+pub fn net_label(name~ : String, layer_index~ : Int, point~ : Point2, radius? : Double) -> NetLabel
+
+pub fn net_label_to_json(NetLabel) -> String
+
+pub fn net_statistics_to_json(NetStatistics) -> String
+
+pub fn net_terminal_kind_name(NetTerminalKind) -> String
+
+pub fn net_terminal_to_json(NetTerminal) -> String
+
+pub fn netlink_to_json(NetLink) -> String
+
+pub fn netlist_from_board(Board, tolerance? : Double) -> Netlist
+
+pub fn netlist_to_csv(Netlist) -> String
+
+pub fn netlist_to_json(Netlist, include_terminals? : Bool, include_links? : Bool) -> String
+
+pub fn netlist_to_text(Netlist) -> String
+
+pub fn netlist_with_labels(Board, Array[NetLabel], definitions? : Array[NetDefinition], tolerance? : Double) -> Netlist
+
 pub fn new_aperture_table() -> ApertureTable
 
 pub fn new_arc_collection() -> ArcCollection
 
+pub fn new_batch_queue() -> BatchQueue
+
 pub fn new_gerber_attributes() -> GerberAttributes
 
 pub fn new_gerber_state() -> GerberState
+
+pub fn new_incremental_document(kind? : StreamDocumentKind, max_record_length? : Int, max_diagnostics? : Int) -> IncrementalDocument
+
+pub fn new_release_manifest(project~ : String, revision~ : String) -> ReleaseManifest
+
+pub fn new_source_index() -> SourceIndex
 
 pub fn no_operation() -> ModalOperation
 
@@ -297,6 +507,8 @@ pub fn object_attribute_scope() -> GerberAttributeScope
 pub fn operation_from_code(String) -> ModalOperation
 
 pub fn operation_name(ModalOperation) -> String
+
+pub fn optimize_toolpath_plan(ToolpathPlan) -> ToolpathPlan
 
 pub fn orient(Point2, Point2, Point2) -> Double
 
@@ -334,6 +546,8 @@ pub fn parse_notation_statement(String, CoordinateNotation) -> CoordinateNotatio
 
 pub fn parse_unit_statement(String, LengthUnit) -> LengthUnit
 
+pub fn pause_path(String, Point2, String, profile? : ToolMachineProfile) -> Toolpath
+
 pub fn pipeline_format_from_name(String) -> PipelineFormat
 
 pub fn pipeline_format_name(PipelineFormat) -> String
@@ -342,21 +556,69 @@ pub fn pipeline_render(PipelineResult, PipelineFormat) -> String
 
 pub fn pipeline_report_many(Array[(String, String)]) -> String
 
+pub fn plan_board_toolpaths(Board, profile? : ToolMachineProfile, include_copper? : Bool, include_drills? : Bool, include_outline? : Bool) -> ToolpathPlan
+
+pub fn plan_shapes(Array[Shape], String, profile? : ToolMachineProfile) -> ToolpathPlan
+
+pub fn plan_toolpaths(name~ : String, rings~ : Array[Ring2], source? : ToolpathSourceKind, layer? : String, profile? : ToolMachineProfile) -> ToolpathPlan
+
+pub fn plane_copper_layer(index~ : Int, name~ : String, thickness~ : Double, copper_weight_oz? : Double) -> StackupLayer
+
 pub fn point2(x~ : Double, y~ : Double) -> Point2
+
+pub fn point_in_polygon(Point2, Polygon2, tolerance? : Double) -> GeometryBoundary
+
+pub fn point_in_ring(Point2, Ring2, tolerance? : Double) -> GeometryBoundary
 
 pub fn point_on_segment(Point2, Point2, Point2, epsilon? : Double) -> Bool
 
+pub fn polygon2(outer~ : Ring2, holes? : Array[Ring2]) -> Polygon2
+
+pub fn polygon_clearance(Polygon2, Polygon2) -> Double
+
 pub fn polygon_contains(Array[Point2], Point2) -> Bool
+
+pub fn polygon_contains_point(Point2, Polygon2) -> Bool
+
+pub fn polygon_distance_to_point(Polygon2, Point2) -> Double
+
+pub fn polygon_is_valid(Polygon2, tolerance? : GeometryTolerance) -> Bool
+
+pub fn polygon_measure_to_json(PolygonMeasure) -> String
+
+pub fn polygon_self_intersections(Ring2, tolerance? : Double) -> Array[SegmentIntersection]
 
 pub fn polygon_self_intersects(Array[Point2]) -> Bool
 
+pub fn polygon_to_json(Polygon2) -> String
+
+pub fn polygon_to_scanlines(Polygon2, Double, Rect2?) -> Array[ScanlineSpan]
+
 pub fn polyline(Array[Point2], closed? : Bool) -> Polyline
+
+pub fn power_net_definition(String, Int) -> NetDefinition
+
+pub fn prepreg_layer(index~ : Int, name~ : String, thickness~ : Double, dielectric_constant~ : Double, loss_tangent? : Double, material? : String) -> StackupLayer
 
 pub fn process_many(Array[(String, String)], options? : PipelineOptions) -> PipelineResult
 
 pub fn process_text(String, source_name? : String, options? : PipelineOptions) -> PipelineResult
 
+pub fn prototype_constraint_set() -> ConstraintSet
+
 pub fn prototype_fabrication_profile() -> FabricationProfile
+
+pub fn prototype_inspection_profile() -> InspectionProfile
+
+pub fn prototype_release_policy() -> ReleasePolicy
+
+pub fn provenance_span(offset_start~ : Int, offset_end~ : Int, line_start~ : Int, line_end~ : Int, column_start~ : Int, column_end~ : Int) -> ProvenanceSpan
+
+pub fn raster_cell_count(Array[RasterCell], covered? : Bool) -> Int
+
+pub fn raster_coverage(Array[RasterCell]) -> Double
+
+pub fn rasterize_polygon(Polygon2, Double, Double, Rect2) -> Array[RasterCell]
 
 pub fn record_axes(String) -> Array[Char]
 
@@ -370,15 +632,69 @@ pub fn record_has_code(String, StringView) -> Bool
 
 pub fn rect2(min_x~ : Double, min_y~ : Double, max_x~ : Double, max_y~ : Double) -> Rect2
 
+pub fn rect_to_ring(Rect2) -> Ring2
+
+pub fn reference_net_definition() -> NetDefinition
+
+pub fn release_artifact(path~ : String, kind~ : ReleaseArtifactKind, content~ : String, required~ : Bool, present~ : Bool, description~ : String) -> ReleaseArtifact
+
+pub fn release_artifact_catalog() -> Array[ReleaseArtifactKind]
+
+pub fn release_artifact_kind_from_path(String) -> ReleaseArtifactKind
+
+pub fn release_artifact_kind_name(ReleaseArtifactKind) -> String
+
+pub fn release_audit_health(ReleaseAudit) -> Bool
+
+pub fn release_change_name(ReleaseChangeKind) -> String
+
+pub fn release_change_risk(Array[ReleaseChange]) -> ReleaseSeverity
+
+pub fn release_compare_manifests(ReleaseManifest, ReleaseManifest) -> Array[ReleaseChange]
+
+pub fn release_decision_name(ReleaseDecision) -> String
+
+pub fn release_gate_catalog() -> Array[String]
+
+pub fn release_manifest_for_board(Board, project? : String, revision? : String) -> ReleaseManifest
+
+pub fn release_manifest_health(ReleaseManifest) -> Bool
+
+pub fn release_policy_catalog() -> Array[ReleasePolicy]
+
+pub fn release_policy_markdown() -> String
+
+pub fn release_severity_name(ReleaseSeverity) -> String
+
+pub fn reorder_toolpaths_nearest(Array[Toolpath], origin? : Point2) -> Array[Toolpath]
+
 pub fn report(Board, min_width? : Double, min_drill? : Double) -> Report
 
 pub fn report_to_json(Report, include_shapes? : Bool) -> String
+
+pub fn ring2(points~ : Array[Point2], closed? : Bool) -> Ring2
+
+pub fn ring_bounding_box(Ring2) -> Rect2?
+
+pub fn ring_inset(Ring2, Double) -> Ring2
+
+pub fn ring_offset(Ring2, Double, tolerance? : Double) -> Ring2
+
+pub fn ring_to_wkt(Ring2) -> String
+
+pub fn run_batch(String, BatchQueue, policy? : BatchFailurePolicy) -> BatchRun
+
+pub fn run_batch_default(String, Array[Board]) -> BatchRun
 
 pub fn run_benchmark_suite(FixtureSize, iterations? : Int) -> BenchmarkSuite
 
 pub fn run_dfm(Board, config? : DfmConfig) -> DfmReport
 
 pub fn sarif_pipeline_format() -> PipelineFormat
+
+pub fn scanline_to_csv(Array[ScanlineSpan]) -> String
+
+pub fn segment_intersection(Point2, Point2, Point2, Point2, tolerance? : Double) -> SegmentIntersection
 
 pub fn segments_intersect(Point2, Point2, Point2, Point2) -> Bool
 
@@ -408,11 +724,45 @@ pub fn shape_to_json(Shape) -> String
 
 pub fn shape_translate(Shape, Point2) -> Shape
 
+pub fn signal_copper_layer(index~ : Int, name~ : String, thickness~ : Double, copper_weight_oz? : Double) -> StackupLayer
+
 pub fn silkscreen_layer_kind() -> LayerKind
+
+pub fn slot_toolpath(String, Ring2, String, profile? : ToolMachineProfile) -> Toolpath
 
 pub fn small_fixture() -> FixtureSize
 
+pub fn solder_mask_layer(index~ : Int, name~ : String, thickness~ : Double, dielectric_constant? : Double) -> StackupLayer
+
 pub fn solder_mask_layer_kind() -> LayerKind
+
+pub fn source_artifact(Int, String, SourceArtifactKind, String?, String, Int, Int, Int) -> SourceArtifact
+
+pub fn source_artifact_kind_name(SourceArtifactKind) -> String
+
+pub fn source_cross_reference(Int, Int, SourceRelation, Double, String) -> SourceCrossReference
+
+pub fn source_document_kind(String) -> SourceDocumentKind
+
+pub fn source_document_kind_name(SourceDocumentKind) -> String
+
+pub fn source_entry_kind_name(SourceEntryKind) -> String
+
+pub fn source_index_entry(Int, Int, Int, SourceEntryKind, String, String, ProvenanceSpan?, String?, Int?, String) -> SourceIndexEntry
+
+pub fn source_index_from_board(Board, path? : String) -> SourceIndex
+
+pub fn source_index_from_excellon(String, path? : String) -> SourceIndex
+
+pub fn source_index_from_gerber(String, path? : String) -> SourceIndex
+
+pub fn source_index_health(SourceIndex) -> Bool
+
+pub fn source_index_join(SourceIndex, SourceIndex) -> SourceIndex
+
+pub fn source_index_rebuild_relations(SourceIndex, confidence? : Double) -> SourceIndex
+
+pub fn source_relation_name(SourceRelation) -> String
 
 pub fn source_span(start_line~ : Int, start_column~ : Int, end_line~ : Int, end_column~ : Int) -> SourceSpan
 
@@ -420,21 +770,101 @@ pub fn spatial_index(cell_size? : Double) -> SpatialIndex
 
 pub fn spatial_index_for_board(Board, cell_size? : Double) -> SpatialIndex
 
+pub fn stackup(name~ : String, layers~ : Array[StackupLayer], unit? : LengthUnit) -> Stackup
+
+pub fn stackup_issue_to_json(StackupIssue) -> String
+
+pub fn stackup_layer(index~ : Int, name~ : String, kind~ : StackupLayerKind, thickness~ : Double, dielectric_constant~ : Double, loss_tangent~ : Double, copper_weight_oz~ : Double, material~ : String) -> StackupLayer
+
+pub fn stackup_layer_kind_name(StackupLayerKind) -> String
+
+pub fn stackup_layer_role_name(StackupLayerRole) -> String
+
+pub fn stackup_rule_name(StackupRule) -> String
+
+pub fn stackup_severity_name(StackupIssueSeverity) -> String
+
+pub fn stackup_to_csv(Stackup) -> String
+
+pub fn stackup_to_json(Stackup) -> String
+
+pub fn stackup_to_markdown(Stackup, validation? : StackupValidation) -> String
+
+pub fn stackup_tolerance(thickness_plus~ : Double, thickness_minus~ : Double, dielectric_plus~ : Double, dielectric_minus~ : Double, copper_plus~ : Double, copper_minus~ : Double) -> StackupTolerance
+
+pub fn stackup_validation_to_json(StackupValidation) -> String
+
+pub fn standard_constraint_set() -> ConstraintSet
+
 pub fn standard_fabrication_profile() -> FabricationProfile
 
+pub fn standard_four_layer_stackup() -> Stackup
+
+pub fn standard_release_policy() -> ReleasePolicy
+
+pub fn standard_six_layer_stackup() -> Stackup
+
+pub fn standard_thermal_profile() -> ThermalProfile
+
+pub fn standard_two_layer_stackup() -> Stackup
+
+pub fn stream_chunks(Array[String], kind? : StreamDocumentKind) -> IncrementalDocument
+
+pub fn stream_kind_from_name(String) -> StreamDocumentKind
+
+pub fn stream_kind_name(StreamDocumentKind) -> String
+
+pub fn stream_phase_name(StreamPhase) -> String
+
+pub fn stream_records(String, kind? : StreamDocumentKind) -> IncrementalDocument
+
+pub fn stream_severity_name(StreamDiagnosticSeverity) -> String
+
+pub fn strict_constraint_set() -> ConstraintSet
+
 pub fn strict_dfm_config() -> DfmConfig
+
+pub fn strict_inspection_profile() -> InspectionProfile
+
+pub fn strict_release_policy() -> ReleasePolicy
 
 pub fn strict_validation_options() -> ValidationOptions
 
 pub fn strip_gerber_comments(String) -> String
 
+pub fn stripline_impedance(Double, Double, Double, Double) -> ImpedanceEstimate
+
 pub fn supported_layer_kinds() -> Array[LayerKind]
 
 pub fn supported_shapes() -> Array[Shape]
 
+pub fn surface_finish_layer(index~ : Int, name~ : String, thickness~ : Double, material? : String) -> StackupLayer
+
 pub fn svg_pipeline_format() -> PipelineFormat
 
 pub fn text_pipeline_format() -> PipelineFormat
+
+pub fn thermal_capacity(Board, profile? : ThermalProfile) -> Double
+
+pub fn thermal_catalog_markdown() -> String
+
+pub fn thermal_delta(ThermalReport, ThermalReport) -> ThermalDelta
+
+pub fn thermal_grid(Board, profile? : ThermalProfile, cell_size? : Double) -> ThermalGrid
+
+pub fn thermal_profile(name~ : String, ambient_c~ : Double, maximum_c~ : Double, copper_conductivity~ : Double, copper_thickness~ : Double, convection~ : Double, minimum_pad_area~ : Double, maximum_current~ : Double, warning_current~ : Double, via_pitch~ : Double, minimum_spokes~ : Int, require_spokes~ : Bool) -> ThermalProfile
+
+pub fn thermal_profile_catalog() -> Array[ThermalProfile]
+
+pub fn thermal_report_health(ThermalReport) -> Bool
+
+pub fn thermal_role_name(ThermalRole) -> String
+
+pub fn thermal_severity_name(ThermalSeverity) -> String
+
+pub fn thermal_temperature_for_board(Board, Double, profile? : ThermalProfile) -> Double
+
+pub fn tight_stackup_tolerance() -> StackupTolerance
 
 pub fn tiny_fixture() -> FixtureSize
 
@@ -454,11 +884,55 @@ pub fn tokenize_gerber(String) -> Array[GerberToken]
 
 pub fn tokenize_records(String) -> Array[String]
 
+pub fn tool_machine_profile(name~ : String, tool_diameter~ : Double, cut_depth~ : Double, safe_height~ : Double, rapid_feed~ : Double, cut_feed~ : Double, plunge_feed~ : Double, spindle_rpm~ : Int, max_width~ : Double, max_height~ : Double, allow_outside_rapid~ : Bool) -> ToolMachineProfile
+
+pub fn toolpath_from_points(name~ : String, points~ : Array[Point2], source~ : ToolpathSourceKind, layer~ : String, profile? : ToolMachineProfile, closed? : Bool) -> Toolpath
+
+pub fn toolpath_from_ring(name~ : String, ring~ : Ring2, source~ : ToolpathSourceKind, layer~ : String, profile? : ToolMachineProfile) -> Toolpath
+
+pub fn toolpath_from_shape(name~ : String, shape~ : Shape, layer~ : String, profile? : ToolMachineProfile) -> Toolpath
+
+pub fn toolpath_issue_to_json(ToolpathIssue) -> String
+
+pub fn toolpath_move(Int, ToolpathMoveKind, Point2, Point2, Double, Double, Double, ToolpathSourceKind, String) -> ToolMove
+
+pub fn toolpath_move_kind_name(ToolpathMoveKind) -> String
+
+pub fn toolpath_move_to_json(ToolMove) -> String
+
+pub fn toolpath_moves_to_csv(ToolpathPlan) -> String
+
+pub fn toolpath_plan_has_source(ToolpathPlan, ToolpathSourceKind) -> Bool
+
+pub fn toolpath_plan_issue_count(ToolpathPlan, ToolpathIssueSeverity) -> Int
+
+pub fn toolpath_plan_to_json(ToolpathPlan, include_moves? : Bool) -> String
+
+pub fn toolpath_plan_to_text(ToolpathPlan) -> String
+
+pub fn toolpath_point(Point2, Double, Double) -> ToolpathPoint
+
+pub fn toolpath_rule_name(ToolpathRule) -> String
+
+pub fn toolpath_severity_name(ToolpathIssueSeverity) -> String
+
+pub fn toolpath_source_name(ToolpathSourceKind) -> String
+
+pub fn toolpath_to_gcode(ToolpathPlan, program_name? : String) -> String
+
+pub fn toolpath_to_json(Toolpath, include_moves? : Bool) -> String
+
+pub fn toolpath_to_linuxcnc(ToolpathPlan, program_name? : String) -> String
+
 pub fn total_pad_area(Board) -> Double
 
 pub fn total_segment_length(Board) -> Double
 
 pub fn trailing_zero_suppression() -> ZeroSuppression
+
+pub fn triangulate_polygon(Polygon2, tolerance? : Double) -> Mesh2
+
+pub fn triangulate_ring(Ring2, tolerance? : Double) -> Mesh2
 
 pub fn unit_to_string(LengthUnit) -> String
 
@@ -469,6 +943,12 @@ pub fn validate_board(Board, options? : DfmConfig) -> ValidationResult
 pub fn validate_excellon(String, options? : ValidationOptions) -> ValidationResult
 
 pub fn validate_gerber(String, options? : ValidationOptions) -> ValidationResult
+
+pub fn validate_mesh(Mesh2, tolerance? : Double) -> MeshValidation
+
+pub fn validate_stackup(Stackup, max_thickness? : Double, expected_finished_tolerance? : Double) -> StackupValidation
+
+pub fn validate_toolpath(Toolpath, ToolMachineProfile) -> Array[ToolpathIssue]
 
 pub fn validation_invalid_status() -> ValidationStatus
 
@@ -554,6 +1034,138 @@ pub enum ArcDirection {
   ClockwiseArc
   CounterClockwiseArc
 } derive(Eq, @debug.Debug)
+
+pub struct BatchComparison {
+  previous_digest : String
+  current_digest : String
+  added_jobs : Int
+  removed_jobs : Int
+  changed_jobs : Int
+  improved_jobs : Int
+  regressed_jobs : Int
+  unchanged_jobs : Int
+  improved : Bool
+} derive(@debug.Debug)
+pub fn BatchComparison::summary(Self) -> String
+pub fn BatchComparison::to_json(Self) -> String
+
+pub enum BatchFailurePolicy {
+  BatchContinue
+  BatchStopOnFailure
+  BatchKeepReviews
+} derive(Eq, @debug.Debug)
+
+pub struct BatchJob {
+  id : Int
+  name : String
+  kind : BatchJobKind
+  board : Board
+  manifest : ReleaseManifest
+  policy : ReleasePolicy
+  tags : Array[String]
+  enabled : Bool
+} derive(@debug.Debug)
+pub fn BatchJob::disabled(Self) -> Self
+pub fn BatchJob::shape_count(Self) -> Int
+pub fn BatchJob::summary(Self) -> String
+pub fn BatchJob::with_tag(Self, String) -> Self
+
+pub enum BatchJobKind {
+  BatchGerberJob
+  BatchExcellonJob
+  BatchBoardJob
+  BatchReleaseJob
+} derive(Eq, @debug.Debug)
+
+pub struct BatchQueue {
+  jobs : Array[BatchJob]
+  next_id : Int
+  duplicate_names : Int
+} derive(@debug.Debug)
+pub fn BatchQueue::disable(Self, String) -> Self
+pub fn BatchQueue::duplicate_count(Self) -> Int
+pub fn BatchQueue::enabled_jobs(Self) -> Array[BatchJob]
+pub fn BatchQueue::enqueue(Self, String, BatchJobKind, Board, ReleaseManifest, ReleasePolicy) -> Self
+pub fn BatchQueue::enqueue_board(Self, String, Board, policy? : ReleasePolicy) -> Self
+pub fn BatchQueue::has_name(Self, String) -> Bool
+pub fn BatchQueue::job(Self, Int) -> BatchJob?
+pub fn BatchQueue::job_count(Self) -> Int
+pub fn BatchQueue::jobs(Self) -> Array[BatchJob]
+pub fn BatchQueue::tag(Self, String, String) -> Self
+
+pub struct BatchResult {
+  job_id : Int
+  name : String
+  status : BatchStatus
+  audit : ReleaseAudit
+  elapsed_ticks : UInt64
+  output_digest : String
+  errors : Array[String]
+  warnings : Array[String]
+} derive(@debug.Debug)
+pub fn BatchResult::is_failed(Self) -> Bool
+pub fn BatchResult::is_passed(Self) -> Bool
+pub fn BatchResult::is_review(Self) -> Bool
+pub fn BatchResult::summary(Self) -> String
+pub fn BatchResult::to_json(Self) -> String
+
+pub struct BatchRun {
+  name : String
+  policy : BatchFailurePolicy
+  status : BatchStatus
+  jobs : Array[BatchJob]
+  results : Array[BatchResult]
+  started_ticks : UInt64
+  finished_ticks : UInt64
+  run_digest : String
+} derive(@debug.Debug)
+pub fn BatchRun::failed_count(Self) -> Int
+pub fn BatchRun::failed_names(Self) -> Array[String]
+pub fn BatchRun::is_complete(Self) -> Bool
+pub fn BatchRun::job(Self, Int) -> BatchJob?
+pub fn BatchRun::job_count(Self) -> Int
+pub fn BatchRun::job_names(Self) -> Array[String]
+pub fn BatchRun::passed_count(Self) -> Int
+pub fn BatchRun::passed_names(Self) -> Array[String]
+pub fn BatchRun::release_ready(Self, String) -> Bool
+pub fn BatchRun::result(Self, Int) -> BatchResult?
+pub fn BatchRun::result_count(Self) -> Int
+pub fn BatchRun::review_count(Self) -> Int
+pub fn BatchRun::review_names(Self) -> Array[String]
+pub fn BatchRun::sarif(Self) -> String
+pub fn BatchRun::summary(Self) -> String
+pub fn BatchRun::summary_data(Self) -> BatchSummary
+pub fn BatchRun::to_csv(Self) -> String
+pub fn BatchRun::to_json(Self) -> String
+pub fn BatchRun::to_text(Self) -> String
+pub fn BatchRun::total_estimated_cost(Self) -> Double
+pub fn BatchRun::total_estimated_minutes(Self) -> Double
+
+pub enum BatchStatus {
+  BatchQueued
+  BatchRunning
+  BatchPassed
+  BatchReview
+  BatchFailed
+  BatchCancelled
+} derive(Eq, @debug.Debug)
+
+pub struct BatchSummary {
+  total_jobs : Int
+  passed_jobs : Int
+  review_jobs : Int
+  failed_jobs : Int
+  skipped_jobs : Int
+  total_shapes : Int
+  total_copper_area : Double
+  average_score : Double
+  elapsed_ticks : UInt64
+  healthy : Bool
+} derive(@debug.Debug)
+pub fn BatchSummary::pass_rate(Self) -> Double
+pub fn BatchSummary::summary(Self) -> String
+pub fn BatchSummary::throughput(Self) -> Double
+pub fn BatchSummary::to_json(Self) -> String
 
 pub struct BenchmarkResult {
   name : String
@@ -668,6 +1280,93 @@ pub enum ConnectivityNodeKind {
   RegionTerminal
 } derive(Eq, @debug.Debug)
 
+pub struct Constraint {
+  id : String
+  kind : ConstraintKind
+  severity : ConstraintSeverity
+  limit : Double
+  secondary_limit : Double?
+  layer : String?
+  description : String
+  enabled : Bool
+} derive(@debug.Debug)
+pub fn Constraint::is_enabled(Self) -> Bool
+pub fn Constraint::summary(Self) -> String
+pub fn Constraint::with_enabled(Self, Bool) -> Self
+
+pub struct ConstraintFinding {
+  constraint_id : String
+  kind : ConstraintKind
+  severity : ConstraintSeverity
+  passed : Bool
+  message : String
+  layer : String?
+  shape_index : Int?
+  location : Point2?
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+
+pub enum ConstraintKind {
+  MinimumTraceWidth
+  MinimumShapeClearance
+  MinimumEdgeClearance
+  MaximumBoardDimension
+  MaximumLayerCount
+  MinimumDrillDiameter
+  MaximumDrillAspect
+  MinimumAnnularRing
+  MaximumNetLength
+  TargetImpedance
+  MinimumCopperDensity
+  MaximumHoleCount
+  ClosedOutline
+} derive(Eq, @debug.Debug)
+
+pub struct ConstraintProfileComparison {
+  set_name : String
+  report : ConstraintReport
+  score : Double
+  usable : Bool
+} derive(@debug.Debug)
+pub fn ConstraintProfileComparison::summary(Self) -> String
+
+pub struct ConstraintReport {
+  set_name : String
+  findings : Array[ConstraintFinding]
+  checked : Int
+  passed : Int
+  failed : Int
+  warnings : Int
+} derive(@debug.Debug)
+pub fn ConstraintReport::failed_constraints(Self) -> Array[String]
+pub fn ConstraintReport::failure_count(Self) -> Int
+pub fn ConstraintReport::findings_for(Self, ConstraintKind) -> Array[ConstraintFinding]
+pub fn ConstraintReport::is_valid(Self) -> Bool
+pub fn ConstraintReport::pass_rate(Self) -> Double
+pub fn ConstraintReport::summary(Self) -> String
+pub fn ConstraintReport::warning_count(Self) -> Int
+pub fn ConstraintReport::worst_clearance(Self) -> Double?
+
+pub struct ConstraintSet {
+  name : String
+  constraints : Array[Constraint]
+  stop_on_failure : Bool
+} derive(@debug.Debug)
+pub fn ConstraintSet::constraint(Self, String) -> Constraint?
+pub fn ConstraintSet::constraint_count(Self) -> Int
+pub fn ConstraintSet::enabled_constraints(Self) -> Array[Constraint]
+pub fn ConstraintSet::enabled_count(Self) -> Int
+pub fn ConstraintSet::with_constraint(Self, Constraint) -> Self
+pub fn ConstraintSet::with_stop_on_failure(Self, Bool) -> Self
+pub fn ConstraintSet::without(Self, String) -> Self
+
+pub enum ConstraintSeverity {
+  ConstraintNote
+  ConstraintWarning
+  ConstraintFailure
+} derive(Eq, @debug.Debug)
+
 pub struct CoordinateFormat {
   integer_digits : Int
   decimal_digits : Int
@@ -754,6 +1453,16 @@ pub enum DiagnosticSeverity {
   WarningDiagnostic
   ErrorDiagnostic
 } derive(Eq, @debug.Debug)
+
+pub struct DifferentialImpedanceEstimate {
+  trace_width : Double
+  spacing : Double
+  reference_distance : Double
+  dielectric_constant : Double
+  single_ended : Double
+  differential : Double
+  valid : Bool
+} derive(@debug.Debug)
 
 pub struct DoubleRange {
   start : Double
@@ -864,6 +1573,18 @@ pub enum FixtureSize {
   LargeFixture
 } derive(Eq, @debug.Debug)
 
+pub enum GeometryBoundary {
+  BoundaryOutside
+  BoundaryInside
+  BoundaryOn
+} derive(Eq, @debug.Debug)
+
+pub struct GeometryTolerance {
+  distance : Double
+  angle : Double
+  area : Double
+} derive(@debug.Debug)
+
 pub struct GerberAttribute {
   scope : GerberAttributeScope
   name : String
@@ -957,10 +1678,149 @@ pub enum GerberTokenKind {
   Unknown
 } derive(Eq, @debug.Debug)
 
+pub struct ImpedanceEstimate {
+  trace_width : Double
+  trace_thickness : Double
+  reference_distance : Double
+  dielectric_constant : Double
+  impedance : Double
+  lower_bound : Double
+  upper_bound : Double
+  model : String
+  valid : Bool
+} derive(@debug.Debug)
+
+pub struct IncrementalDocument {
+  kind : StreamDocumentKind
+  phase : StreamPhase
+  pending : String
+  records : Array[StreamRecord]
+  diagnostics : Array[StreamDiagnostic]
+  stats : StreamStats
+  max_record_length : Int
+  max_diagnostics : Int
+  offset : Int
+  line : Int
+  column : Int
+} derive(@debug.Debug)
+pub fn IncrementalDocument::byte_count(Self) -> Int
+pub fn IncrementalDocument::coordinate_record_count(Self) -> Int
+pub fn IncrementalDocument::diagnostic_count(Self) -> Int
+pub fn IncrementalDocument::diagnostics(Self) -> Array[StreamDiagnostic]
+pub fn IncrementalDocument::excellon_has_end(Self) -> Bool
+pub fn IncrementalDocument::feed(Self, String) -> Self
+pub fn IncrementalDocument::finish(Self) -> Self
+pub fn IncrementalDocument::gerber_has_end(Self) -> Bool
+pub fn IncrementalDocument::has_errors(Self) -> Bool
+pub fn IncrementalDocument::has_record(Self, String) -> Bool
+pub fn IncrementalDocument::is_finished(Self) -> Bool
+pub fn IncrementalDocument::line_count(Self) -> Int
+pub fn IncrementalDocument::max_record_length_seen(Self) -> Int
+pub fn IncrementalDocument::record(Self, Int) -> StreamRecord?
+pub fn IncrementalDocument::record_count(Self) -> Int
+pub fn IncrementalDocument::records(Self) -> Array[StreamRecord]
+pub fn IncrementalDocument::records_containing(Self, String) -> Array[StreamRecord]
+pub fn IncrementalDocument::stats(Self) -> StreamStats
+
 pub enum InputKind {
   GerberInput
   ExcellonInput
   UnknownInput
+} derive(Eq, @debug.Debug)
+
+pub struct InspectionDelta {
+  previous_status : InspectionStatus
+  current_status : InspectionStatus
+  new_failures : Int
+  resolved_failures : Int
+  changed_rules : Array[String]
+} derive(@debug.Debug)
+pub fn InspectionDelta::summary(Self) -> String
+
+pub struct InspectionFinding {
+  rule : InspectionRule
+  status : InspectionStatus
+  message : String
+  measured : Double?
+  limit : Double?
+  location : Point2?
+} derive(@debug.Debug)
+pub fn InspectionFinding::format(Self) -> String
+pub fn InspectionFinding::is_failure(Self) -> Bool
+
+pub struct InspectionGate {
+  name : String
+  status : InspectionStatus
+  findings : Array[InspectionFinding]
+} derive(@debug.Debug)
+pub fn InspectionGate::error_count(Self) -> Int
+pub fn InspectionGate::is_passed(Self) -> Bool
+pub fn InspectionGate::warning_count(Self) -> Int
+
+pub struct InspectionProfile {
+  name : String
+  dfm_config : DfmConfig
+  fabrication_profile : FabricationProfile
+  machine_profile : ToolMachineProfile
+  tolerance : Double
+  require_dfm_pass : Bool
+  require_fabrication_pass : Bool
+  require_connected : Bool
+  require_named_nets : Bool
+  require_safe_toolpaths : Bool
+  max_warnings : Int
+  min_fabrication_score : Double
+  max_board_area : Double
+  min_copper_density : Double
+  max_drills : Int
+} derive(@debug.Debug)
+pub fn InspectionProfile::with_gates(Self, Bool, Bool, Bool, Bool, Bool) -> Self
+pub fn InspectionProfile::with_machine(Self, ToolMachineProfile) -> Self
+pub fn InspectionProfile::with_name(Self, String) -> Self
+
+pub struct InspectionReport {
+  profile : InspectionProfile
+  status : InspectionStatus
+  gates : Array[InspectionGate]
+  findings : Array[InspectionFinding]
+  dfm : DfmReport
+  fabrication : FabricationAssessment
+  connectivity : ConnectivityGraph
+  netlist : Netlist
+  toolpaths : ToolpathPlan
+  metrics : BoardMetrics
+} derive(@debug.Debug)
+pub fn InspectionReport::error_count(Self) -> Int
+pub fn InspectionReport::failed_rules(Self) -> Array[String]
+pub fn InspectionReport::findings_for(Self, InspectionRule) -> Array[InspectionFinding]
+pub fn InspectionReport::gate(Self, String) -> InspectionGate?
+pub fn InspectionReport::gate_status(Self, String) -> InspectionStatus
+pub fn InspectionReport::is_passed(Self) -> Bool
+pub fn InspectionReport::is_release_ready(Self) -> Bool
+pub fn InspectionReport::pass_count(Self) -> Int
+pub fn InspectionReport::summary(Self) -> String
+pub fn InspectionReport::to_json(Self) -> String
+pub fn InspectionReport::to_sarif(Self) -> String
+pub fn InspectionReport::to_text(Self) -> String
+pub fn InspectionReport::warning_count(Self) -> Int
+pub fn InspectionReport::warning_rules(Self) -> Array[String]
+
+pub enum InspectionRule {
+  DfmGate
+  FabricationGate
+  ConnectivityGate
+  NetlistGate
+  ToolpathGate
+  BoardSizeGate
+  CopperDensityGate
+  DrillCountGate
+  ProductionReadinessGate
+} derive(Eq, @debug.Debug)
+
+pub enum InspectionStatus {
+  InspectionPass
+  InspectionWarn
+  InspectionFail
 } derive(Eq, @debug.Debug)
 
 pub struct Issue {
@@ -1052,6 +1912,88 @@ pub enum MaterialFamily {
   FlexibleMaterial
 } derive(Eq, @debug.Debug)
 
+pub struct Mesh2 {
+  vertices : Array[MeshVertex]
+  triangles : Array[MeshTriangle]
+  source_area : Double
+  source_holes : Int
+} derive(@debug.Debug)
+pub fn Mesh2::area(Self) -> Double
+pub fn Mesh2::bounds(Self) -> Rect2?
+pub fn Mesh2::reoriented(Self) -> Self
+pub fn Mesh2::scaled(Self, Double, origin? : Point2) -> Self
+pub fn Mesh2::statistics(Self) -> MeshStatistics
+pub fn Mesh2::translated(Self, Point2) -> Self
+pub fn Mesh2::triangle(Self, Int) -> MeshTriangle?
+pub fn Mesh2::triangle_count(Self) -> Int
+pub fn Mesh2::vertex(Self, Int) -> MeshVertex?
+pub fn Mesh2::vertex_count(Self) -> Int
+
+pub struct MeshIssue {
+  kind : MeshIssueKind
+  triangle_id : Int?
+  vertex_id : Int?
+  message : String
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+
+pub enum MeshIssueKind {
+  MeshTooFewVertices
+  MeshDegenerateTriangle
+  MeshDuplicateVertex
+  MeshInvertedTriangle
+  MeshBoundaryMismatch
+  MeshHoleUnrepresented
+  MeshNonFiniteVertex
+} derive(Eq, @debug.Debug)
+
+pub struct MeshStatistics {
+  vertex_count : Int
+  triangle_count : Int
+  boundary_vertices : Int
+  area : Double
+  min_triangle_area : Double
+  max_triangle_area : Double
+  average_triangle_area : Double
+  bounds : Rect2?
+} derive(@debug.Debug)
+
+pub struct MeshTriangle {
+  id : Int
+  a : Int
+  b : Int
+  c : Int
+  area : Double
+  centroid : Point2
+  clockwise : Bool
+} derive(@debug.Debug)
+pub fn MeshTriangle::contains_point(Self, Mesh2, Point2) -> Bool
+pub fn MeshTriangle::is_degenerate(Self) -> Bool
+pub fn MeshTriangle::vertices(Self) -> (Int, Int, Int)
+
+pub struct MeshValidation {
+  valid : Bool
+  issues : Array[MeshIssue]
+  vertex_count : Int
+  triangle_count : Int
+  mesh_area : Double
+  source_area : Double
+  area_error : Double
+} derive(@debug.Debug)
+pub fn MeshValidation::error_count(Self) -> Int
+pub fn MeshValidation::is_valid(Self) -> Bool
+pub fn MeshValidation::summary(Self) -> String
+pub fn MeshValidation::warning_count(Self) -> Int
+
+pub struct MeshVertex {
+  id : Int
+  point : Point2
+  boundary : Bool
+} derive(@debug.Debug)
+pub fn MeshVertex::is_boundary(Self) -> Bool
+pub fn MeshVertex::location(Self) -> Point2
+
 pub enum ModalOperation {
   MoveOperation
   DrawOperation
@@ -1060,6 +2002,154 @@ pub enum ModalOperation {
   RegionDrawOperation
   NoOperation
 } derive(Eq, @debug.Debug)
+
+pub struct NetComponent {
+  id : Int
+  terminal_ids : Array[Int]
+  net_name : String?
+  layer_count : Int
+  length : Double
+  bounds : Rect2?
+} derive(@debug.Debug)
+pub fn NetComponent::is_floating(Self) -> Bool
+pub fn NetComponent::is_named(Self) -> Bool
+pub fn NetComponent::name(Self) -> String
+pub fn NetComponent::terminal_count(Self) -> Int
+
+pub struct NetDefinition {
+  name : String
+  class_name : String
+  expected_terminals : Int
+  max_length : Double?
+  min_clearance : Double
+  reference_net : Bool
+} derive(@debug.Debug)
+pub fn NetDefinition::to_json(Self) -> String
+
+pub struct NetIssue {
+  rule : NetIssueRule
+  severity : NetIssueSeverity
+  net_name : String
+  message : String
+  terminal_id : Int?
+  location : Point2?
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+
+pub enum NetIssueRule {
+  UnnamedComponent
+  FloatingTerminal
+  UnconnectedNet
+  UnexpectedCrossLayerJoin
+  NetShortCandidate
+  DuplicateLabel
+  MissingReference
+  EmptyNetlist
+} derive(Eq, @debug.Debug)
+
+pub enum NetIssueSeverity {
+  NetInfo
+  NetWarning
+  NetError
+} derive(Eq, @debug.Debug)
+
+pub struct NetLabel {
+  name : String
+  layer_index : Int
+  point : Point2
+  radius : Double
+} derive(@debug.Debug)
+pub fn NetLabel::is_reference(Self) -> Bool
+pub fn NetLabel::matches(Self, Int, Point2) -> Bool
+
+pub struct NetLink {
+  from : Int
+  to : Int
+  distance : Double
+  layer_index : Int
+  geometric : Bool
+} derive(@debug.Debug)
+pub fn NetLink::is_cross_layer(Self, Array[NetTerminal]) -> Bool
+
+pub struct NetStatistics {
+  net_count : Int
+  terminal_count : Int
+  component_count : Int
+  named_terminal_count : Int
+  floating_terminal_count : Int
+  longest_net : Double
+  average_terminals : Double
+} derive(@debug.Debug)
+
+pub struct NetTerminal {
+  id : Int
+  node_id : Int
+  layer_index : Int
+  layer_name : String
+  shape_index : Int
+  kind : NetTerminalKind
+  point : Point2
+  net_name : String?
+} derive(@debug.Debug)
+pub fn NetTerminal::is_named(Self) -> Bool
+pub fn NetTerminal::kind_name(Self) -> String
+pub fn NetTerminal::location(Self) -> Point2
+pub fn NetTerminal::name(Self) -> String
+
+pub enum NetTerminalKind {
+  NetTraceEndpoint
+  NetPad
+  NetVia
+  NetRegion
+  NetDrill
+} derive(Eq, @debug.Debug)
+
+pub struct Netlist {
+  terminals : Array[NetTerminal]
+  links : Array[NetLink]
+  components : Array[NetComponent]
+  definitions : Array[NetDefinition]
+  issues : Array[NetIssue]
+  tolerance : Double
+} derive(@debug.Debug)
+pub fn Netlist::component(Self, Int) -> NetComponent?
+pub fn Netlist::component_count(Self) -> Int
+pub fn Netlist::component_for_terminal(Self, Int) -> NetComponent?
+pub fn Netlist::connected(Self, Int, Int) -> Bool
+pub fn Netlist::cross_layer_count(Self) -> Int
+pub fn Netlist::cross_layer_issue(Self) -> NetIssue?
+pub fn Netlist::cross_layer_links(Self) -> Array[NetLink]
+pub fn Netlist::definition(Self, String) -> NetDefinition?
+pub fn Netlist::error_count(Self) -> Int
+pub fn Netlist::find_net(Self, String) -> Array[NetTerminal]
+pub fn Netlist::floating_components(Self) -> Array[NetComponent]
+pub fn Netlist::is_valid(Self) -> Bool
+pub fn Netlist::issue_rules(Self) -> Array[String]
+pub fn Netlist::label_coverage(Self) -> Double
+pub fn Netlist::layer_names(Self) -> Array[String]
+pub fn Netlist::link_count(Self) -> Int
+pub fn Netlist::max_component_length(Self) -> Double
+pub fn Netlist::named_components(Self) -> Array[NetComponent]
+pub fn Netlist::named_terminal_count(Self) -> Int
+pub fn Netlist::net_clearance(Self, String, String) -> Double
+pub fn Netlist::net_count(Self) -> Int
+pub fn Netlist::net_is_reference(Self, String) -> Bool
+pub fn Netlist::net_length(Self, String) -> Double
+pub fn Netlist::net_names(Self) -> Array[String]
+pub fn Netlist::net_passes_length(Self, String) -> Bool
+pub fn Netlist::nets_by_class(Self, String) -> Array[String]
+pub fn Netlist::reference_components(Self) -> Array[NetComponent]
+pub fn Netlist::short_candidates(Self) -> Array[NetIssue]
+pub fn Netlist::statistics(Self) -> NetStatistics
+pub fn Netlist::summary(Self) -> String
+pub fn Netlist::terminal(Self, Int) -> NetTerminal?
+pub fn Netlist::terminal_count(Self) -> Int
+pub fn Netlist::total_geometric_length(Self) -> Double
+pub fn Netlist::unconnected_terminals(Self) -> Array[NetTerminal]
+pub fn Netlist::warning_count(Self) -> Int
+pub fn Netlist::with_definitions(Self, Array[NetDefinition]) -> Self
+pub fn Netlist::with_labels(Self, Array[NetLabel]) -> Self
 
 pub struct OutlineAnalysis {
   loops : Array[OutlineLoop]
@@ -1170,6 +2260,28 @@ pub fn Point2::near(Self, Self, epsilon? : Double) -> Bool
 pub fn Point2::scale(Self, Double) -> Self
 pub fn Point2::sub(Self, Self) -> Self
 
+pub struct Polygon2 {
+  outer : Ring2
+  holes : Array[Ring2]
+} derive(@debug.Debug)
+pub fn Polygon2::area(Self) -> Double
+pub fn Polygon2::bounds(Self) -> Rect2?
+pub fn Polygon2::hole_count(Self) -> Int
+pub fn Polygon2::holes(Self) -> Array[Ring2]
+pub fn Polygon2::measure(Self) -> PolygonMeasure
+pub fn Polygon2::outer_ring(Self) -> Ring2
+pub fn Polygon2::perimeter(Self) -> Double
+
+pub struct PolygonMeasure {
+  area : Double
+  signed_area : Double
+  perimeter : Double
+  centroid : Point2?
+  bounds : Rect2?
+  vertices : Int
+  holes : Int
+} derive(@debug.Debug)
+
 pub struct Polyline {
   points : Array[Point2]
   closed : Bool
@@ -1182,6 +2294,30 @@ pub fn Polyline::length(Self) -> Double
 pub fn Polyline::point_count(Self) -> Int
 pub fn Polyline::reversed(Self) -> Self
 pub fn Polyline::signed_area(Self) -> Double
+
+pub struct ProvenanceSpan {
+  offset_start : Int
+  offset_end : Int
+  line_start : Int
+  line_end : Int
+  column_start : Int
+  column_end : Int
+} derive(Eq, @debug.Debug)
+pub fn ProvenanceSpan::contains_line(Self, Int) -> Bool
+pub fn ProvenanceSpan::contains_offset(Self, Int) -> Bool
+pub fn ProvenanceSpan::length(Self) -> Int
+pub fn ProvenanceSpan::line_count(Self) -> Int
+pub fn ProvenanceSpan::merge(Self, Self) -> Self
+pub fn ProvenanceSpan::overlaps(Self, Self) -> Bool
+pub fn ProvenanceSpan::summary(Self) -> String
+
+pub struct RasterCell {
+  row : Int
+  column : Int
+  center : Point2
+  covered : Bool
+  coverage : Double
+} derive(@debug.Debug)
 
 pub struct Rect2 {
   min_x : Double
@@ -1204,11 +2340,196 @@ pub fn Rect2::translate(Self, Point2) -> Self
 pub fn Rect2::union(Self, Self) -> Self
 pub fn Rect2::width(Self) -> Double
 
+pub struct ReleaseArtifact {
+  path : String
+  kind : ReleaseArtifactKind
+  digest : String
+  bytes : Int
+  required : Bool
+  present : Bool
+  description : String
+} derive(@debug.Debug)
+pub fn ReleaseArtifact::is_missing(Self) -> Bool
+pub fn ReleaseArtifact::summary(Self) -> String
+pub fn ReleaseArtifact::to_json(Self) -> String
+
+pub enum ReleaseArtifactKind {
+  ReleaseGerber
+  ReleaseExcellon
+  ReleaseOutline
+  ReleaseReport
+  ReleaseManifest
+  ReleaseDerived
+} derive(Eq, @debug.Debug)
+
+pub struct ReleaseAudit {
+  manifest : ReleaseManifest
+  policy : ReleasePolicy
+  decision : ReleaseDecision
+  score : Double
+  gates : Array[ReleaseGate]
+  changes : Array[ReleaseChange]
+  inspection : InspectionReport
+  thermal : ThermalReport
+  constraints : ConstraintReport
+  provenance : SourceIndex
+  metrics : BoardMetrics
+} derive(@debug.Debug)
+pub fn ReleaseAudit::blocked_count(Self) -> Int
+pub fn ReleaseAudit::is_ready(Self) -> Bool
+pub fn ReleaseAudit::review_count(Self) -> Int
+pub fn ReleaseAudit::sarif(Self) -> String
+pub fn ReleaseAudit::summary(Self) -> String
+pub fn ReleaseAudit::to_csv(Self) -> String
+pub fn ReleaseAudit::to_json(Self) -> String
+pub fn ReleaseAudit::to_text(Self) -> String
+pub fn ReleaseAudit::with_changes(Self, Array[ReleaseChange]) -> Self
+
+pub struct ReleaseChange {
+  path : String
+  kind : ReleaseChangeKind
+  previous_digest : String?
+  current_digest : String?
+  size_delta : Int
+  risk : ReleaseSeverity
+  rationale : String
+} derive(@debug.Debug)
+pub fn ReleaseChange::to_json(Self) -> String
+
+pub enum ReleaseChangeKind {
+  ReleaseAdded
+  ReleaseRemoved
+  ReleaseModified
+  ReleaseUnchanged
+} derive(Eq, @debug.Debug)
+
+pub enum ReleaseDecision {
+  ReleaseReady
+  ReleaseReview
+  ReleaseBlocked
+} derive(Eq, @debug.Debug)
+
+pub struct ReleaseDelta {
+  previous_decision : ReleaseDecision
+  current_decision : ReleaseDecision
+  previous_score : Double
+  current_score : Double
+  score_delta : Double
+  added : Int
+  removed : Int
+  modified : Int
+  resolved_gates : Int
+  new_blockers : Int
+  improved : Bool
+} derive(@debug.Debug)
+pub fn ReleaseDelta::summary(Self) -> String
+
+pub struct ReleaseGate {
+  name : String
+  decision : ReleaseDecision
+  severity : ReleaseSeverity
+  measured : Double?
+  limit : Double?
+  evidence : String
+  remediation : String
+} derive(@debug.Debug)
+pub fn ReleaseGate::is_passed(Self) -> Bool
+pub fn ReleaseGate::summary(Self) -> String
+pub fn ReleaseGate::to_json(Self) -> String
+
+pub struct ReleaseManifest {
+  project : String
+  revision : String
+  artifacts : Array[ReleaseArtifact]
+  declared_checks : Array[String]
+  notes : Array[String]
+} derive(@debug.Debug)
+pub fn ReleaseManifest::add_artifact(Self, ReleaseArtifact) -> Self
+pub fn ReleaseManifest::artifact(Self, String) -> ReleaseArtifact?
+pub fn ReleaseManifest::artifact_count(Self) -> Int
+pub fn ReleaseManifest::digest(Self) -> String
+pub fn ReleaseManifest::has_check(Self, String) -> Bool
+pub fn ReleaseManifest::missing_count(Self) -> Int
+pub fn ReleaseManifest::required_count(Self) -> Int
+pub fn ReleaseManifest::summary(Self) -> String
+pub fn ReleaseManifest::to_json(Self) -> String
+pub fn ReleaseManifest::with_check(Self, String) -> Self
+pub fn ReleaseManifest::with_note(Self, String) -> Self
+
+pub struct ReleasePolicy {
+  name : String
+  minimum_score : Double
+  maximum_warnings : Int
+  maximum_missing_artifacts : Int
+  maximum_changes : Int
+  require_inspection_ready : Bool
+  require_thermal_pass : Bool
+  require_constraints_pass : Bool
+  require_provenance : Bool
+  compare_area_tolerance : Double
+} derive(@debug.Debug)
+pub fn ReleasePolicy::summary(Self) -> String
+
+pub enum ReleaseSeverity {
+  ReleaseNotice
+  ReleaseRisk
+  ReleaseBlocker
+} derive(Eq, @debug.Debug)
+
 pub struct Report {
   board : Board
   issues : Array[Issue]
   bbox : BoundingBox?
 } derive(@debug.Debug)
+
+pub struct Ring2 {
+  points : Array[Point2]
+  closed : Bool
+} derive(@debug.Debug)
+pub fn Ring2::area(Self) -> Double
+pub fn Ring2::at(Self, Int) -> Point2?
+pub fn Ring2::bounds(Self) -> Rect2?
+pub fn Ring2::centroid(Self) -> Point2?
+pub fn Ring2::clockwise(Self) -> Bool
+pub fn Ring2::closed_points(Self) -> Array[Point2]
+pub fn Ring2::counter_clockwise(Self) -> Bool
+pub fn Ring2::deduplicated(Self, tolerance? : Double) -> Self
+pub fn Ring2::first(Self) -> Point2?
+pub fn Ring2::is_closed(Self) -> Bool
+pub fn Ring2::is_empty(Self) -> Bool
+pub fn Ring2::last(Self) -> Point2?
+pub fn Ring2::oriented(Self, Bool) -> Self
+pub fn Ring2::perimeter(Self) -> Double
+pub fn Ring2::point_count(Self) -> Int
+pub fn Ring2::points(Self) -> Array[Point2]
+pub fn Ring2::reversed(Self) -> Self
+pub fn Ring2::scaled(Self, Double, origin? : Point2) -> Self
+pub fn Ring2::signed_area(Self) -> Double
+pub fn Ring2::simplified(Self, tolerance? : Double) -> Self
+pub fn Ring2::translated(Self, Point2) -> Self
+
+pub struct ScanlineSpan {
+  y : Double
+  start_x : Double
+  end_x : Double
+  winding : Int
+} derive(@debug.Debug)
+
+pub struct SegmentIntersection {
+  kind : SegmentIntersectionKind
+  point : Point2?
+  overlap_start : Point2?
+  overlap_end : Point2?
+  parameter_a : Double?
+  parameter_b : Double?
+} derive(@debug.Debug)
+
+pub enum SegmentIntersectionKind {
+  NoIntersection
+  ProperIntersection
+  EndpointIntersection
+  CollinearOverlap
+} derive(Eq, @debug.Debug)
 
 pub enum Shape {
   Segment(x1~ : Double, y1~ : Double, x2~ : Double, y2~ : Double, width~ : Double)
@@ -1234,6 +2555,123 @@ pub struct ShapeMetrics {
   vertices : Int
 } derive(@debug.Debug)
 
+pub struct SourceArtifact {
+  id : Int
+  path : String
+  kind : SourceArtifactKind
+  layer : String?
+  digest : String
+  byte_count : Int
+  record_count : Int
+  shape_count : Int
+} derive(@debug.Debug)
+pub fn SourceArtifact::has_layer(Self, String) -> Bool
+pub fn SourceArtifact::summary(Self) -> String
+pub fn SourceArtifact::to_json(Self) -> String
+
+pub enum SourceArtifactKind {
+  SourceGerberArtifact
+  SourceExcellonArtifact
+  SourceBoardArtifact
+  SourceDerivedArtifact
+  SourceUnknownArtifact
+} derive(Eq, @debug.Debug)
+
+pub struct SourceCrossReference {
+  left_entry : Int
+  right_entry : Int
+  relation : SourceRelation
+  confidence : Double
+  rationale : String
+} derive(@debug.Debug)
+pub fn SourceCrossReference::summary(Self) -> String
+pub fn SourceCrossReference::to_json(Self) -> String
+
+pub enum SourceDocumentKind {
+  SourceGerberDocument
+  SourceExcellonDocument
+  SourceUnknownDocument
+} derive(Eq, @debug.Debug)
+
+pub enum SourceEntryKind {
+  SourceRecordEntry
+  SourceShapeEntry
+  SourceDiagnosticEntry
+  SourceLayerEntry
+  SourceDerivedEntry
+} derive(Eq, @debug.Debug)
+
+pub struct SourceIndex {
+  artifacts : Array[SourceArtifact]
+  entries : Array[SourceIndexEntry]
+  relations : Array[SourceCrossReference]
+  warnings : Array[String]
+} derive(@debug.Debug)
+pub fn SourceIndex::add_artifact(Self, path~ : String, kind~ : SourceArtifactKind, layer~ : String?, content~ : String, record_count~ : Int, shape_count~ : Int) -> Self
+pub fn SourceIndex::add_empty_artifact(Self, path~ : String, kind~ : SourceArtifactKind, layer~ : String?) -> Self
+pub fn SourceIndex::add_entry(Self, Int, kind~ : SourceEntryKind, label~ : String, semantic~ : String, span~ : ProvenanceSpan?, layer~ : String?, shape_index~ : Int?) -> Self
+pub fn SourceIndex::add_layer_catalog(Self, Board) -> Self
+pub fn SourceIndex::add_relation(Self, Int, Int, relation~ : SourceRelation, confidence~ : Double, rationale~ : String) -> Self
+pub fn SourceIndex::artifact(Self, Int) -> SourceArtifact?
+pub fn SourceIndex::artifact_count(Self) -> Int
+pub fn SourceIndex::artifacts(Self) -> Array[SourceArtifact]
+pub fn SourceIndex::entries(Self) -> Array[SourceIndexEntry]
+pub fn SourceIndex::entries_overlapping(Self, ProvenanceSpan) -> Array[SourceIndexEntry]
+pub fn SourceIndex::entry(Self, Int) -> SourceIndexEntry?
+pub fn SourceIndex::entry_at_offset(Self, Int) -> SourceIndexEntry?
+pub fn SourceIndex::entry_count(Self) -> Int
+pub fn SourceIndex::find(Self, SourceQuery) -> Array[SourceIndexEntry]
+pub fn SourceIndex::find_kind(Self, SourceEntryKind) -> Array[SourceIndexEntry]
+pub fn SourceIndex::find_layer(Self, String) -> Array[SourceIndexEntry]
+pub fn SourceIndex::find_line_range(Self, Int, Int) -> Array[SourceIndexEntry]
+pub fn SourceIndex::find_text(Self, String) -> Array[SourceIndexEntry]
+pub fn SourceIndex::index_board(Self, Board, path~ : String) -> Self
+pub fn SourceIndex::index_excellon(Self, ExcellonDocument, path~ : String) -> Self
+pub fn SourceIndex::index_gerber(Self, GerberDocument, path~ : String) -> Self
+pub fn SourceIndex::index_stream_document(Self, String, path~ : String, kind~ : SourceDocumentKind, layer~ : String?) -> Self
+pub fn SourceIndex::relation_count(Self) -> Int
+pub fn SourceIndex::relations(Self) -> Array[SourceCrossReference]
+pub fn SourceIndex::summary(Self) -> SourceSummary
+pub fn SourceIndex::timeline(Self, String?) -> Array[SourceTimelinePoint]
+pub fn SourceIndex::to_csv(Self) -> String
+pub fn SourceIndex::to_json(Self) -> String
+pub fn SourceIndex::to_text(Self) -> String
+pub fn SourceIndex::warning_count(Self) -> Int
+
+pub struct SourceIndexEntry {
+  id : Int
+  artifact_id : Int
+  ordinal : Int
+  kind : SourceEntryKind
+  label : String
+  semantic : String
+  span : ProvenanceSpan?
+  layer : String?
+  shape_index : Int?
+  checksum : String
+} derive(@debug.Debug)
+pub fn SourceIndexEntry::has_span(Self) -> Bool
+pub fn SourceIndexEntry::is_shape(Self) -> Bool
+pub fn SourceIndexEntry::line(Self) -> Int?
+pub fn SourceIndexEntry::matches(Self, SourceQuery) -> Bool
+pub fn SourceIndexEntry::to_json(Self) -> String
+
+pub struct SourceQuery {
+  text : String?
+  kind : SourceEntryKind?
+  layer : String?
+  min_line : Int?
+  max_line : Int?
+} derive(@debug.Debug)
+
+pub enum SourceRelation {
+  SourceContains
+  SourceDerivedFrom
+  SourceOverlaps
+  SourceMatches
+  SourceConflicts
+} derive(Eq, @debug.Debug)
+
 pub struct SourceSpan {
   start_line : Int
   start_column : Int
@@ -1242,6 +2680,28 @@ pub struct SourceSpan {
 } derive(@debug.Debug)
 pub fn SourceSpan::contains(Self, line~ : Int, column~ : Int) -> Bool
 pub fn SourceSpan::to_string(Self) -> String
+
+pub struct SourceSummary {
+  artifact_count : Int
+  entry_count : Int
+  relation_count : Int
+  source_bytes : Int
+  covered_bytes : Int
+  coverage : Double
+  layer_count : Int
+  warning_count : Int
+  shape_entries : Int
+  record_entries : Int
+} derive(@debug.Debug)
+pub fn SourceSummary::summary(Self) -> String
+
+pub struct SourceTimelinePoint {
+  entry_id : Int
+  line : Int
+  offset : Int
+  label : String
+  layer : String?
+} derive(@debug.Debug)
 
 pub struct SpatialEntry {
   layer_index : Int
@@ -1269,6 +2729,310 @@ pub fn SpatialIndex::query_point(Self, Point2, radius? : Double) -> Array[Spatia
 pub fn SpatialIndex::rebuild(Self, Board) -> Unit
 pub fn SpatialIndex::shape_query(Self, Int, Int) -> SpatialEntry?
 
+pub struct Stackup {
+  name : String
+  unit : LengthUnit
+  layers : Array[StackupLayer]
+  finished_thickness : Double?
+} derive(@debug.Debug)
+pub fn Stackup::adjacent_reference(Self, Int) -> StackupLayer?
+pub fn Stackup::append_layer(Self, StackupLayer) -> Self
+pub fn Stackup::average_dielectric_between(Self, Int, Int) -> Double
+pub fn Stackup::copper_indices(Self) -> Array[Int]
+pub fn Stackup::copper_layer_count(Self) -> Int
+pub fn Stackup::dielectric_between(Self, Int, Int) -> Double
+pub fn Stackup::dielectric_indices(Self) -> Array[Int]
+pub fn Stackup::dielectric_layer_count(Self) -> Int
+pub fn Stackup::electrical_layers(Self) -> Array[StackupLayer]
+pub fn Stackup::estimate_microstrip(Self, Int, Double) -> ImpedanceEstimate?
+pub fn Stackup::finished_or_nominal_thickness(Self) -> Double
+pub fn Stackup::first_copper(Self) -> StackupLayer?
+pub fn Stackup::has_valid_indices(Self) -> Bool
+pub fn Stackup::is_symmetric(Self, tolerance? : Double) -> Bool
+pub fn Stackup::last_copper(Self) -> StackupLayer?
+pub fn Stackup::layer(Self, Int) -> StackupLayer?
+pub fn Stackup::layer_count(Self) -> Int
+pub fn Stackup::layer_named(Self, String) -> StackupLayer?
+pub fn Stackup::layers(Self) -> Array[StackupLayer]
+pub fn Stackup::material_names(Self) -> Array[String]
+pub fn Stackup::maximum_copper_weight(Self) -> Double
+pub fn Stackup::maximum_dielectric_constant(Self) -> Double
+pub fn Stackup::minimum_dielectric_thickness(Self) -> Double?
+pub fn Stackup::mirror(Self) -> Self
+pub fn Stackup::normalized(Self) -> Self
+pub fn Stackup::outer_copper(Self) -> StackupLayer?
+pub fn Stackup::plane_layer_count(Self) -> Int
+pub fn Stackup::replace_layer(Self, Int, StackupLayer) -> Self
+pub fn Stackup::signal_layer_count(Self) -> Int
+pub fn Stackup::total_thickness(Self) -> Double
+pub fn Stackup::with_finished_thickness(Self, Double) -> Self
+
+pub struct StackupIssue {
+  rule : StackupRule
+  severity : StackupIssueSeverity
+  layer_index : Int?
+  message : String
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+
+pub enum StackupIssueSeverity {
+  StackupInfo
+  StackupWarning
+  StackupError
+} derive(Eq, @debug.Debug)
+
+pub struct StackupLayer {
+  index : Int
+  name : String
+  kind : StackupLayerKind
+  thickness : Double
+  dielectric_constant : Double
+  loss_tangent : Double
+  copper_weight_oz : Double
+  material : String
+} derive(@debug.Debug)
+pub fn StackupLayer::copper_area_weight(Self) -> Double
+pub fn StackupLayer::copper_thickness_um(Self) -> Double
+pub fn StackupLayer::effective_dielectric(Self) -> Double
+pub fn StackupLayer::electrical_description(Self) -> String
+pub fn StackupLayer::is_copper(Self) -> Bool
+pub fn StackupLayer::is_dielectric(Self) -> Bool
+pub fn StackupLayer::is_reference_plane(Self) -> Bool
+pub fn StackupLayer::is_signal(Self) -> Bool
+pub fn StackupLayer::role(Self) -> StackupLayerRole
+pub fn StackupLayer::summary(Self) -> String
+
+pub enum StackupLayerKind {
+  SignalCopper
+  PlaneCopper
+  CoreDielectric
+  PrepregDielectric
+  SolderMask
+  SurfaceFinish
+  MechanicalLayer
+} derive(Eq, @debug.Debug)
+
+pub enum StackupLayerRole {
+  OuterCopper
+  InnerCopper
+  Dielectric
+  Mask
+  Finish
+  Mechanical
+} derive(Eq, @debug.Debug)
+
+pub enum StackupRule {
+  EmptyStackup
+  InvalidThickness
+  InvalidDielectric
+  InvalidCopperWeight
+  LayerOrder
+  MissingOuterCopper
+  MissingDielectric
+  ExcessiveThickness
+  ThicknessMismatch
+  UnsupportedMaterial
+  MissingFinishedThickness
+} derive(Eq, @debug.Debug)
+
+pub struct StackupTolerance {
+  thickness_plus : Double
+  thickness_minus : Double
+  dielectric_plus : Double
+  dielectric_minus : Double
+  copper_plus : Double
+  copper_minus : Double
+} derive(@debug.Debug)
+pub fn StackupTolerance::contains_copper(Self, Double, Double) -> Bool
+pub fn StackupTolerance::contains_dielectric(Self, Double, Double) -> Bool
+pub fn StackupTolerance::contains_thickness(Self, Double, Double) -> Bool
+pub fn StackupTolerance::copper_range(Self, Double) -> (Double, Double)
+pub fn StackupTolerance::dielectric_range(Self, Double) -> (Double, Double)
+pub fn StackupTolerance::thickness_range(Self, Double) -> (Double, Double)
+
+pub struct StackupValidation {
+  stackup_name : String
+  issues : Array[StackupIssue]
+  layer_count : Int
+  total_thickness : Double
+  copper_layers : Int
+  dielectric_layers : Int
+} derive(@debug.Debug)
+pub fn StackupValidation::error_count(Self) -> Int
+pub fn StackupValidation::is_valid(Self) -> Bool
+pub fn StackupValidation::issues(Self) -> Array[StackupIssue]
+pub fn StackupValidation::summary(Self) -> String
+pub fn StackupValidation::warning_count(Self) -> Int
+
+pub struct StreamDiagnostic {
+  severity : StreamDiagnosticSeverity
+  code : String
+  message : String
+  record_index : Int?
+  offset : Int
+  line : Int
+} derive(@debug.Debug)
+
+pub enum StreamDiagnosticSeverity {
+  StreamNote
+  StreamWarning
+  StreamError
+} derive(Eq, @debug.Debug)
+
+pub enum StreamDocumentKind {
+  StreamGerber
+  StreamExcellon
+  StreamUnknown
+} derive(Eq, @debug.Debug)
+
+pub enum StreamPhase {
+  StreamCreated
+  StreamReceiving
+  StreamFinished
+  StreamFailed
+} derive(Eq, @debug.Debug)
+
+pub struct StreamRecord {
+  index : Int
+  text : String
+  start_offset : Int
+  end_offset : Int
+  line : Int
+  column : Int
+  terminator : Char
+} derive(@debug.Debug)
+
+pub struct StreamStats {
+  byte_count : Int
+  record_count : Int
+  line_count : Int
+  max_record_length : Int
+  star_terminated : Int
+  newline_terminated : Int
+  empty_records : Int
+  coordinate_records : Int
+  comment_records : Int
+} derive(@debug.Debug)
+
+pub struct ThermalCell {
+  column : Int
+  row : Int
+  center : Point2
+  temperature_c : Double
+  copper_area : Double
+  occupied : Bool
+} derive(@debug.Debug)
+
+pub struct ThermalDelta {
+  previous_temperature : Double
+  current_temperature : Double
+  previous_capacity : Double
+  current_capacity : Double
+  temperature_change : Double
+  capacity_change : Double
+  improved : Bool
+} derive(@debug.Debug)
+pub fn ThermalDelta::summary(Self) -> String
+
+pub struct ThermalFinding {
+  severity : ThermalSeverity
+  code : String
+  message : String
+  recommendation : String
+  layer : String?
+  location : Point2?
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+pub fn ThermalFinding::is_critical(Self) -> Bool
+pub fn ThermalFinding::is_warning(Self) -> Bool
+pub fn ThermalFinding::summary(Self) -> String
+pub fn ThermalFinding::to_json(Self) -> String
+
+pub struct ThermalGrid {
+  bounds : Rect2
+  columns : Int
+  rows : Int
+  cell_size : Double
+  cells : Array[ThermalCell]
+} derive(@debug.Debug)
+pub fn ThermalGrid::average_temperature(Self) -> Double
+pub fn ThermalGrid::cell(Self, Int, Int) -> ThermalCell?
+pub fn ThermalGrid::cell_count(Self) -> Int
+pub fn ThermalGrid::maximum_temperature(Self) -> Double
+pub fn ThermalGrid::occupied_count(Self) -> Int
+pub fn ThermalGrid::to_csv(Self) -> String
+pub fn ThermalGrid::to_json(Self) -> String
+
+pub struct ThermalPad {
+  layer : String
+  index : Int
+  location : Point2
+  diameter : Double
+  area : Double
+  estimated_current : Double
+  via_count : Int
+  spoke_count : Int
+  role : ThermalRole
+  temperature_c : Double
+} derive(@debug.Debug)
+pub fn ThermalPad::is_hot(Self, ThermalProfile) -> Bool
+pub fn ThermalPad::summary(Self) -> String
+pub fn ThermalPad::to_json(Self) -> String
+pub fn ThermalPad::utilization(Self, ThermalProfile) -> Double
+
+pub struct ThermalProfile {
+  name : String
+  ambient_c : Double
+  maximum_c : Double
+  copper_conductivity : Double
+  copper_thickness : Double
+  convection : Double
+  minimum_pad_area : Double
+  maximum_current : Double
+  warning_current : Double
+  via_pitch : Double
+  minimum_spokes : Int
+  require_spokes : Bool
+} derive(@debug.Debug)
+pub fn ThermalProfile::summary(Self) -> String
+pub fn ThermalProfile::with_current_limit(Self, Double, Double) -> Self
+pub fn ThermalProfile::with_temperature_limit(Self, Double) -> Self
+
+pub struct ThermalReport {
+  profile : ThermalProfile
+  pads : Array[ThermalPad]
+  findings : Array[ThermalFinding]
+  copper_area : Double
+  heat_spread_area : Double
+  estimated_capacity : Double
+  maximum_temperature_c : Double
+  valid : Bool
+} derive(@debug.Debug)
+pub fn ThermalReport::critical_count(Self) -> Int
+pub fn ThermalReport::hot_pad_count(Self) -> Int
+pub fn ThermalReport::is_valid(Self) -> Bool
+pub fn ThermalReport::summary(Self) -> String
+pub fn ThermalReport::to_csv(Self) -> String
+pub fn ThermalReport::to_json(Self) -> String
+pub fn ThermalReport::to_text(Self) -> String
+pub fn ThermalReport::warning_count(Self) -> Int
+
+pub enum ThermalRole {
+  ThermalPower
+  ThermalGround
+  ThermalSignal
+  ThermalMixed
+  ThermalUnknown
+} derive(Eq, @debug.Debug)
+
+pub enum ThermalSeverity {
+  ThermalInfo
+  ThermalWarning
+  ThermalCritical
+} derive(Eq, @debug.Debug)
+
 pub struct TokenStream {
   tokens : Array[GerberToken]
   mut index : Int
@@ -1277,6 +3041,168 @@ pub fn TokenStream::at_end(Self) -> Bool
 pub fn TokenStream::peek(Self) -> GerberToken?
 pub fn TokenStream::skip_until(Self, GerberTokenKind) -> Int
 pub fn TokenStream::take(Self) -> GerberToken?
+
+pub struct ToolMachineProfile {
+  name : String
+  unit : LengthUnit
+  tool_diameter : Double
+  cut_depth : Double
+  safe_height : Double
+  rapid_feed : Double
+  cut_feed : Double
+  plunge_feed : Double
+  spindle_rpm : Int
+  max_width : Double
+  max_height : Double
+  allow_outside_rapid : Bool
+} derive(@debug.Debug)
+pub fn ToolMachineProfile::converted(Self, LengthUnit) -> Self
+pub fn ToolMachineProfile::is_valid(Self) -> Bool
+pub fn ToolMachineProfile::summary(Self) -> String
+pub fn ToolMachineProfile::with_depth(Self, Double) -> Self
+pub fn ToolMachineProfile::with_feeds(Self, Double, Double, Double) -> Self
+pub fn ToolMachineProfile::with_tool(Self, Double) -> Self
+pub fn ToolMachineProfile::work_area(Self) -> Rect2
+
+pub struct ToolMove {
+  sequence : Int
+  kind : ToolpathMoveKind
+  start : Point2
+  end : Point2
+  start_z : Double
+  end_z : Double
+  feed : Double
+  length : Double
+  source : ToolpathSourceKind
+  layer : String
+} derive(@debug.Debug)
+pub fn ToolMove::format(Self) -> String
+pub fn ToolMove::is_cut(Self) -> Bool
+pub fn ToolMove::is_rapid(Self) -> Bool
+pub fn ToolMove::is_vertical(Self) -> Bool
+
+pub struct Toolpath {
+  name : String
+  source : ToolpathSourceKind
+  layer : String
+  closed : Bool
+  moves : Array[ToolMove]
+  start : Point2?
+  end : Point2?
+  cut_length : Double
+  rapid_length : Double
+  estimated_seconds : Double
+} derive(@debug.Debug)
+pub fn Toolpath::bounds(Self) -> Rect2?
+pub fn Toolpath::cut_move_count(Self) -> Int
+pub fn Toolpath::end_point(Self) -> Point2?
+pub fn Toolpath::first_cut(Self) -> ToolMove?
+pub fn Toolpath::is_empty(Self) -> Bool
+pub fn Toolpath::last_move(Self) -> ToolMove?
+pub fn Toolpath::max_depth(Self) -> Double
+pub fn Toolpath::move_count(Self) -> Int
+pub fn Toolpath::rapid_move_count(Self) -> Int
+pub fn Toolpath::reversed(Self) -> Self
+pub fn Toolpath::source_name(Self) -> String
+pub fn Toolpath::start_point(Self) -> Point2?
+pub fn Toolpath::summary(Self) -> String
+pub fn Toolpath::translated(Self, Point2) -> Self
+pub fn Toolpath::uses_safe_height(Self, Double, tolerance? : Double) -> Bool
+
+pub struct ToolpathIssue {
+  rule : ToolpathRule
+  severity : ToolpathIssueSeverity
+  path_name : String
+  message : String
+  sequence : Int?
+  location : Point2?
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+
+pub enum ToolpathIssueSeverity {
+  ToolpathInfo
+  ToolpathWarning
+  ToolpathError
+} derive(Eq, @debug.Debug)
+
+pub enum ToolpathMoveKind {
+  ToolRapid
+  ToolCut
+  ToolPlunge
+  ToolRetract
+  ToolDrill
+  ToolPause
+} derive(Eq, @debug.Debug)
+
+pub struct ToolpathPlan {
+  profile : ToolMachineProfile
+  paths : Array[Toolpath]
+  issues : Array[ToolpathIssue]
+  total_cut_length : Double
+  total_rapid_length : Double
+  estimated_seconds : Double
+  bounds : Rect2?
+} derive(@debug.Debug)
+pub fn ToolpathPlan::all_paths_use_safe_height(Self) -> Bool
+pub fn ToolpathPlan::bounds_height(Self) -> Double
+pub fn ToolpathPlan::bounds_width(Self) -> Double
+pub fn ToolpathPlan::error_count(Self) -> Int
+pub fn ToolpathPlan::is_valid(Self) -> Bool
+pub fn ToolpathPlan::issues(Self) -> Array[ToolpathIssue]
+pub fn ToolpathPlan::machine_utilization(Self) -> Double
+pub fn ToolpathPlan::move_count(Self) -> Int
+pub fn ToolpathPlan::path(Self, Int) -> Toolpath?
+pub fn ToolpathPlan::path_count(Self) -> Int
+pub fn ToolpathPlan::recalculate(Self) -> Self
+pub fn ToolpathPlan::summary(Self) -> ToolpathSummary
+pub fn ToolpathPlan::to_csv(Self) -> String
+pub fn ToolpathPlan::to_gcode(Self) -> String
+pub fn ToolpathPlan::to_json(Self) -> String
+pub fn ToolpathPlan::warning_count(Self) -> Int
+pub fn ToolpathPlan::with_profile(Self, ToolMachineProfile) -> Self
+
+pub struct ToolpathPoint {
+  point : Point2
+  z : Double
+  feed : Double
+} derive(@debug.Debug)
+pub fn ToolpathPoint::to_text(Self) -> String
+
+pub enum ToolpathRule {
+  EmptyPath
+  NonFinitePoint
+  OutsideWorkArea
+  ExcessiveDepth
+  UnsafeRapid
+  DuplicateMove
+  OpenToolpathContour
+  ToolDiameterMismatch
+  DrillOutsideBoard
+  FeedOutOfRange
+} derive(Eq, @debug.Debug)
+
+pub enum ToolpathSourceKind {
+  OutlineSource
+  CopperSource
+  SlotSource
+  DrillSource
+  FixtureSource
+} derive(Eq, @debug.Debug)
+
+pub struct ToolpathSummary {
+  path_count : Int
+  move_count : Int
+  cut_moves : Int
+  rapid_moves : Int
+  drill_moves : Int
+  cut_length : Double
+  rapid_length : Double
+  estimated_seconds : Double
+} derive(@debug.Debug)
+pub fn ToolpathSummary::cut_ratio(Self) -> Double
+pub fn ToolpathSummary::estimated_minutes(Self) -> Double
+pub fn ToolpathSummary::summary(Self) -> String
 
 pub struct ValidationIssue {
   code : String

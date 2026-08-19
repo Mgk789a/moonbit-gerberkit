@@ -118,10 +118,10 @@ The checked-in latest native benchmark records a real local run using the medium
 
 | Benchmark | Input | Ticks | Operations | Shapes |
 |---|---:|---:|---:|---:|
-| Gerber parse | 1,834 bytes | 6 | 867 | 231 |
-| Excellon parse | 530 bytes | 3 | 405 | 192 |
-| DFM check | 106 bytes | 22 | 4,134 | 33 |
-| Render | 106 bytes | 10 | 51,003 | 50,685 |
+| Gerber parse | 1,834 bytes | 5 | 867 | 231 |
+| Excellon parse | 530 bytes | 1 | 405 | 192 |
+| DFM check | 106 bytes | 13 | 4,134 | 33 |
+| Render | 106 bytes | 7 | 51,003 | 50,685 |
 
 Runtime ticks are comparison data from the native harness and are not portable wall-clock guarantees. Re-run the exact command on the same machine when comparing changes:
 
@@ -131,7 +131,7 @@ moon run --target native cmd/gerberkit -- --bench --fixture=medium
 
 ## Tests and quality gates
 
-The repository has 92 passing MoonBit tests covering parsing, malformed input, units, modal state, arcs, regions, apertures, Excellon modes, DFM boundaries, reporting, spatial queries, connectivity, fabrication profiles, and deterministic fixtures.
+The repository has 111 passing MoonBit tests covering parsing, malformed input, units, modal state, arcs, regions, apertures, Excellon modes, DFM boundaries, geometry boundaries, stackups, toolpaths, netlists, source spans, thermal grids, release audits, batch execution, reporting, spatial queries, connectivity, fabrication profiles, and deterministic fixtures.
 
 ~~~
 moon fmt --check
