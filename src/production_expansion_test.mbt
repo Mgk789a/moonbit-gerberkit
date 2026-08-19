@@ -251,6 +251,49 @@ test "release audits preserve evidence for blocked manifests" {
 }
 
 ///|
+test "release bundles expose reproducible packaging status" {
+  let manifest = release_manifest_for_board(
+    fixture_board(tiny_fixture()),
+    project="bundle-test",
+    revision="r1",
+  )
+  let bundle = release_bundle_from_manifest(manifest).with_check("manifest")
+  assert_true(bundle.entry_count() > 0)
+  assert_true(bundle.required_count() == bundle.present_count())
+  assert_true(bundle.is_reproducible())
+  assert_true(bundle.fingerprint().length() > 0)
+  assert_true(bundle.status(standard_release_policy()) is BundleReady)
+  assert_true(
+    bundle.summary(standard_release_policy()).contains("status=ready"),
+  )
+}
+
+///|
+test "release bundle deltas detect additions and empty-package failures" {
+  let empty = new_release_bundle(project="bundle-test", revision="r0")
+  assert_true(!empty.is_reproducible())
+  assert_true(empty.status(standard_release_policy()) is BundleFailure)
+  let first = release_bundle_from_manifest(
+    new_release_manifest(project="bundle-test", revision="r1").add_artifact(
+      release_artifact(
+        path="outline.gko",
+        kind=release_artifact_kind_from_path("outline.gko"),
+        content="outline",
+        required=true,
+        present=true,
+        description="board outline",
+      ),
+    ),
+  )
+  let second = first.with_note("repacked")
+  let delta = release_bundle_delta(empty, second)
+  assert_true(delta.added == 1)
+  assert_true(delta.removed == 0)
+  assert_true(delta.modified == 0)
+  assert_true(delta.change_count() == 1)
+}
+
+///|
 test "release comparison distinguishes changed and unchanged artifacts" {
   let board = fixture_board(tiny_fixture())
   let first = release_manifest_for_board(board, revision="one")
