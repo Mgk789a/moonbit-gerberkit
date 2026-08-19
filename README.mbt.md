@@ -35,6 +35,16 @@ moon test --deny-warn
 moon run --target native cmd/gerberkit
 ~~~
 
+## Installation
+
+Add the published library to another MoonBit project:
+
+~~~
+moon add Mgk789a/moonbit-gerberkit@0.2.1
+~~~
+
+The command-line examples below run from this repository.
+
 The default CLI input is a built-in sample. To inspect a file:
 
 ~~~
@@ -110,7 +120,7 @@ The parser and analysis layers communicate through Board, Layer, and Shape. This
 
 Supported Gerber records include common parameter blocks, format/unit statements, aperture definitions, D-code selection, D01/D02/D03 operations, regions, and G02/G03 arcs. Supported Excellon records include tool definitions, metric/inch modes, zero suppression, absolute/incremental moves, and G85 slots.
 
-Unknown records are retained in diagnostics where possible. Manufacturing-specific extensions, complex boolean copper pours, full netlist reconstruction, and vendor-specific macro semantics remain outside the current compatibility contract.
+Unknown records are retained in diagnostics where possible. The library provides geometric netlist inference, stackup and impedance estimates, source provenance, thermal pre-checks, toolpath planning, and release audits; it does not claim to replace a full PCB editor, schematic-authoritative netlist, or vendor-specific boolean copper engine.
 
 ## Benchmarks
 
