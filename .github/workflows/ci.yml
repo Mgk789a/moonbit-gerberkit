@@ -3,26 +3,63 @@ name: MoonBit CI
 on:
   push:
   pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   check:
-    runs-on: ubuntu-latest
+    name: ${{ matrix.os }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os:
+          - ubuntu-latest
+          - macos-latest
+          - windows-latest
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Install MoonBit 0.10.3+
+
+      - name: Install MoonBit on Unix
+        if: runner.os != 'Windows'
+        shell: bash
         run: |
           curl -fsSL https://cli.moonbitlang.com/install/unix.sh | bash
           echo "$HOME/.moon/bin" >> "$GITHUB_PATH"
-      - name: Format and interface checks
+
+      - name: Install MoonBit on Windows
+        if: runner.os == 'Windows'
+        shell: pwsh
         run: |
-          moon fmt --check
-          moon check --deny-warn
+          Invoke-WebRequest https://cli.moonbitlang.com/install/powershell.ps1 -UseBasicParsing | Invoke-Expression
+          Add-Content $env:GITHUB_PATH "$env:USERPROFILE\.moon\bin"
+
+      - name: Toolchain information
+        run: moon version --all
+
+      - name: Refresh dependencies
+        run: moon update
+
+      - name: Check every target
+        run: moon check --deny-warn --target all
+
+      - name: Run every target
+        run: moon test --deny-warn --target all
+
+      - name: Verify formatting
+        run: moon fmt --check
+
+      - name: Verify generated interfaces
+        run: |
           moon info
           git diff --exit-code
-      - name: Tests
-        run: |
-          moon test --deny-warn
-          moon test --deny-warn --target native
-      - name: CLI smoke test
-        run: moon run --target native cmd/gerberkit
+
+      - name: Native CLI smoke test
+        run: moon run --target native cmd/gerberkit -- --help
+
+      - name: Native benchmark smoke test
+        run: moon run --target native cmd/gerberkit -- --bench --fixture=tiny

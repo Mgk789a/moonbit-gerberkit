@@ -2,7 +2,7 @@
 pub enum LengthUnit {
   Millimeter
   Inch
-}
+} derive(Debug, Eq)
 
 ///|
 pub fn LengthUnit::scale_to_mm(self : LengthUnit) -> Double {
@@ -20,7 +20,7 @@ pub enum LayerKind {
   Drill
   Mechanical
   Unknown
-}
+} derive(Debug, Eq)
 
 ///|
 pub enum Shape {
@@ -35,7 +35,7 @@ pub enum Shape {
   Flash(x~ : Double, y~ : Double, aperture~ : Int)
   Region(points~ : Array[(Double, Double)])
   DrillHit(x~ : Double, y~ : Double, diameter~ : Double)
-}
+} derive(Debug)
 
 ///|
 pub struct Layer {
@@ -43,12 +43,12 @@ pub struct Layer {
   kind : LayerKind
   unit : LengthUnit
   shapes : Array[Shape]
-}
+} derive(Debug)
 
 ///|
 pub struct Board {
   layers : Array[Layer]
-}
+} derive(Debug)
 
 ///|
 pub fn empty_board() -> Board {
@@ -66,7 +66,7 @@ pub struct BoundingBox {
   min_y : Double
   max_x : Double
   max_y : Double
-}
+} derive(Debug)
 
 ///|
 pub struct Issue {
@@ -74,14 +74,14 @@ pub struct Issue {
   severity : String
   message : String
   layer : String
-}
+} derive(Debug)
 
 ///|
 pub struct Report {
   board : Board
   issues : Array[Issue]
   bbox : BoundingBox?
-}
+} derive(Debug)
 
 ///|
 pub fn kind_to_string(kind : LayerKind) -> String {

@@ -4,37 +4,19 @@ pub fn check(
   min_width? : Double = 0.1,
   min_drill? : Double = 0.2,
 ) -> Array[Issue] {
-  let issues : Array[Issue] = []
-  for layer in board.layers {
-    if layer.shapes.length() == 0 {
-      issues.push({
-        rule: "empty-layer",
-        severity: "warning",
-        message: "layer has no geometry",
-        layer: layer.name,
-      })
-    }
-    for shape in layer.shapes {
-      match shape {
-        Segment(x1=_, y1=_, x2=_, y2=_, width~) if width < min_width =>
-          issues.push({
-            rule: "minimum-width",
-            severity: "error",
-            message: "trace width is below the configured limit",
-            layer: layer.name,
-          })
-        DrillHit(x=_, y=_, diameter~) if diameter < min_drill =>
-          issues.push({
-            rule: "drill-size",
-            severity: "warning",
-            message: "drill diameter is unusually small",
-            layer: layer.name,
-          })
-        _ => ()
-      }
-    }
+  let config = {
+    min_width,
+    min_drill,
+    min_clearance: 0.15,
+    min_annular_ring: 0.1,
+    max_board_width: 1000.0,
+    max_board_height: 1000.0,
+    require_outline: false,
+    require_drill_layer: false,
+    check_duplicates: true,
+    check_geometry: true,
   }
-  issues
+  check_dfm(board, config~)
 }
 
 ///|

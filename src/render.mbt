@@ -93,33 +93,5 @@ pub fn to_svg(board : Board) -> String {
 
 ///|
 pub fn to_json(report : Report) -> String {
-  let mut out = "{\"layers\":["
-  for i, layer in report.board.layers {
-    if i > 0 {
-      out = out + ","
-    }
-    out = out +
-      "{\"name\":\"" +
-      layer.name +
-      "\",\"kind\":\"" +
-      kind_to_string(layer.kind) +
-      "\",\"shapes\":" +
-      layer.shapes.length().to_string() +
-      "}"
-  }
-  out = out + "],\"issues\":["
-  for i, issue in report.issues {
-    if i > 0 {
-      out = out + ","
-    }
-    out = out +
-      "{\"rule\":\"" +
-      issue.rule +
-      "\",\"severity\":\"" +
-      issue.severity +
-      "\",\"layer\":\"" +
-      issue.layer +
-      "\"}"
-  }
-  out + "]}"
+  report_to_json(report)
 }

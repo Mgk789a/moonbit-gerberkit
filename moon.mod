@@ -1,6 +1,6 @@
 name = "Mgk789a/moonbit-gerberkit"
 
-version = "0.1.0"
+version = "0.2.0"
 
 readme = "README.mbt.md"
 
@@ -10,6 +10,10 @@ license = "Apache-2.0"
 
 keywords = [ "gerber", "excellon", "pcb", "dfm", "manufacturing" ]
 
-preferred_target = "wasm-gc"
+preferred_target = "native"
 
-description = "Gerber and Excellon manufacturing data parser and DFM checker"
+description = "Gerber and Excellon manufacturing data parser, geometry toolkit, and DFM checker"
+
+import {
+  "moonbitlang/x@0.4.48",
+}

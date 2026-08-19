@@ -1,36 +1,442 @@
 // Generated using `moon info`, DON'T EDIT IT
 package "Mgk789a/moonbit-gerberkit/src"
 
+import {
+  "moonbitlang/core/debug",
+}
+
 // Values
+pub fn absolute_notation() -> CoordinateNotation
+
+pub fn aluminum_fabrication_profile() -> FabricationProfile
+
+pub fn analyze_outline(Board, tolerance? : Double) -> OutlineAnalysis
+
+pub fn aperture(code~ : Int, kind~ : ApertureKind, hole? : Double) -> Aperture
+
+pub fn aperture_attribute_scope() -> GerberAttributeScope
+
+pub fn aperture_kind_name(ApertureKind) -> String
+
+pub fn aperture_macro(name~ : String, primitives~ : Array[MacroPrimitive]) -> ApertureMacro
+
+pub fn approx_equal(Double, Double, epsilon? : Double) -> Bool
+
+pub fn arc2(center~ : Point2, start~ : Point2, end~ : Point2, direction~ : ArcDirection, full_circle? : Bool) -> Arc2
+
+pub fn arc_contains_angle(Arc2, Double) -> Bool
+
+pub fn arc_from_offsets(Point2, Point2, Double, Double, ArcDirection) -> Arc2
+
+pub fn ascii_pipeline_format() -> PipelineFormat
+
+pub fn assess_fabrication(Board, profile? : FabricationProfile) -> FabricationAssessment
+
+pub fn attribute_scope_name(GerberAttributeScope) -> String
+
+pub fn attribute_scope_prefix(GerberAttributeScope) -> String
+
+pub fn benchmark_dfm(FixtureSize, iterations? : Int) -> BenchmarkResult
+
+pub fn benchmark_excellon(FixtureSize, iterations? : Int) -> BenchmarkResult
+
+pub fn benchmark_parse(FixtureSize, iterations? : Int) -> BenchmarkResult
+
+pub fn benchmark_render(FixtureSize, iterations? : Int) -> BenchmarkResult
+
+pub fn benchmark_smoke() -> Bool
+
+pub fn best_fabrication_profile(Board) -> FabricationProfile
+
 pub fn board_bounds(Board) -> BoundingBox?
+
+pub fn board_builder() -> BoardBuilder
 
 pub fn board_from_layers(Array[Layer]) -> Board
 
+pub fn board_layer_named(Board, String) -> Layer?
+
+pub fn board_merge(Board, Board) -> Board
+
+pub fn board_metrics(Board) -> BoardMetrics
+
+pub fn board_scale(Board, Double) -> Board
+
+pub fn board_shape_count(Board) -> Int
+
 pub fn board_stats(Board) -> Array[LayerStats]
+
+pub fn board_to_html(Board, report? : DfmReport) -> String
+
+pub fn board_to_json(Board, include_shapes? : Bool) -> String
+
+pub fn board_translate(Board, Point2) -> Board
+
+pub fn board_without_empty_layers(Board) -> Board
+
+pub fn build_connectivity(Board, tolerance? : Double) -> ConnectivityGraph
 
 pub fn check(Board, min_width? : Double, min_drill? : Double) -> Array[Issue]
 
+pub fn check_dfm(Board, config? : DfmConfig) -> Array[Issue]
+
+pub fn checksum_records(Array[String]) -> Int
+
+pub fn circle2(Point2, Double) -> Circle2
+
+pub fn clamp(Double, low~ : Double, high~ : Double) -> Double
+
+pub fn clockwise_arc_direction() -> ArcDirection
+
+pub fn compare_fabrication_profiles(Board, Array[FabricationProfile]) -> Array[FabricationAssessment]
+
+pub fn connectivity_from_board(Board) -> ConnectivityGraph
+
+pub fn connectivity_kind_name(ConnectivityNodeKind) -> String
+
 pub fn convert(Double, from~ : LengthUnit, to~ : LengthUnit) -> Double
+
+pub fn coordinate_format(integer_digits~ : Int, decimal_digits~ : Int, zero_suppression~ : ZeroSuppression, notation~ : CoordinateNotation, unit~ : LengthUnit) -> CoordinateFormat
+
+pub fn copper_layer_kind() -> LayerKind
+
+pub fn counter_clockwise_arc_direction() -> ArcDirection
+
+pub fn csv_pipeline_format() -> PipelineFormat
+
+pub fn default_coordinate_format() -> CoordinateFormat
+
+pub fn default_dfm_config() -> DfmConfig
+
+pub fn default_excellon_format() -> ExcellonFormat
+
+pub fn default_pipeline_options() -> PipelineOptions
+
+pub fn default_validation_options() -> ValidationOptions
+
+pub fn delete_attribute_scope() -> GerberAttributeScope
+
+pub fn detect_input_kind(String) -> InputKind
+
+pub fn dfm_error() -> DfmSeverity
+
+pub fn dfm_finding(DfmRuleId, DfmSeverity, String, String, Int?, Point2?, Double?, Double?) -> DfmFinding
+
+pub fn dfm_finding_to_json(DfmFinding) -> String
+
+pub fn dfm_info() -> DfmSeverity
+
+pub fn dfm_info_severity() -> DfmSeverity
+
+pub fn dfm_report_to_json(DfmReport) -> String
+
+pub fn dfm_rule_name(DfmRuleId) -> String
+
+pub fn dfm_severity_name(DfmSeverity) -> String
+
+pub fn dfm_to_csv(DfmReport) -> String
+
+pub fn dfm_to_github_annotations(DfmReport) -> String
+
+pub fn dfm_to_sarif(DfmReport, tool_name? : String) -> String
+
+pub fn dfm_to_text(DfmReport) -> String
+
+pub fn dfm_warning() -> DfmSeverity
+
+pub fn diagnostic(severity~ : DiagnosticSeverity, code~ : String, message~ : String, line~ : Int, column~ : Int, record~ : String) -> ParseDiagnostic
+
+pub fn document_layer(GerberDocument) -> Layer
+
+pub fn document_to_json(GerberDocument, include_shapes? : Bool) -> String
+
+pub fn double_range(start~ : Double, end~ : Double) -> DoubleRange
+
+pub fn drill_layer_kind() -> LayerKind
+
+pub fn drill_tool(code~ : Int, diameter~ : Double) -> DrillTool
 
 pub fn empty_board() -> Board
 
+pub fn end_of_file_token_kind() -> GerberTokenKind
+
+pub fn error_diagnostic() -> DiagnosticSeverity
+
+pub fn excellon_format(integer_digits~ : Int, decimal_digits~ : Int, zero_mode~ : ExcellonZeroMode, unit~ : LengthUnit) -> ExcellonFormat
+
+pub fn excellon_leading_zero_mode() -> ExcellonZeroMode
+
+pub fn excellon_to_json(ExcellonDocument, include_shapes? : Bool) -> String
+
+pub fn excellon_trailing_zero_mode() -> ExcellonZeroMode
+
+pub fn explicit_zero_suppression() -> ZeroSuppression
+
+pub fn fabrication_catalog_markdown() -> String
+
+pub fn fabrication_class_name(FabricationClass) -> String
+
+pub fn fabrication_profile_catalog() -> Array[FabricationProfile]
+
+pub fn file_attribute_scope() -> GerberAttributeScope
+
+pub fn finding_counts(Array[DfmFinding]) -> (Int, Int, Int)
+
+pub fn fine_pitch_fabrication_profile() -> FabricationProfile
+
+pub fn fixture_board(FixtureSize, seed? : UInt64) -> Board
+
+pub fn fixture_excellon(FixtureSize) -> String
+
+pub fn fixture_gerber(FixtureSize, seed? : UInt64) -> String
+
+pub fn fixture_json_board(FixtureSize) -> String
+
+pub fn fixture_layer(String, LayerKind) -> Layer
+
+pub fn fixture_rectangle_layer(String, LayerKind, Double, Double, trace_width? : Double) -> Layer
+
+pub fn fixture_size_count(FixtureSize) -> Int
+
+pub fn fixture_size_name(FixtureSize) -> String
+
+pub fn flexible_fabrication_profile() -> FabricationProfile
+
+pub fn format_name(CoordinateFormat) -> String
+
+pub fn gerber_attribute(scope~ : GerberAttributeScope, name~ : String, values~ : Array[String], record~ : String) -> GerberAttribute
+
+pub fn gerber_token(kind~ : GerberTokenKind, text~ : String, line~ : Int, column~ : Int) -> GerberToken
+
+pub fn html_pipeline_format() -> PipelineFormat
+
+pub fn inch_unit() -> LengthUnit
+
+pub fn incremental_notation() -> CoordinateNotation
+
+pub fn info_diagnostic() -> DiagnosticSeverity
+
+pub fn input_kind_name(InputKind) -> String
+
+pub fn is_end_record(String) -> Bool
+
+pub fn is_motion_record(String) -> Bool
+
+pub fn is_parameter_record(String) -> Bool
+
 pub fn issue_count(Report, severity~ : String) -> Int
+
+pub fn json_escape(String) -> String
+
+pub fn json_pipeline_format() -> PipelineFormat
+
+pub fn json_string(String) -> String
 
 pub fn kind_to_string(LayerKind) -> String
 
+pub fn large_fixture() -> FixtureSize
+
+pub fn layer(name~ : String, kind~ : LayerKind, unit~ : LengthUnit, shapes~ : Array[Shape]) -> Layer
+
+pub fn layer_kind_from_role(LayerRole) -> LayerKind
+
+pub fn layer_metadata(String, String) -> LayerMetadata
+
+pub fn layer_metrics(Layer) -> LayerMetrics
+
+pub fn layer_role_from_attributes(GerberAttributes) -> LayerRole
+
+pub fn layer_role_name(LayerRole) -> String
+
 pub fn layer_stats(Layer) -> LayerStats
+
+pub fn layer_to_json(Layer, include_shapes? : Bool) -> String
+
+pub fn leading_zero_suppression() -> ZeroSuppression
+
+pub fn line_numbered_records(String) -> Array[(Int, String)]
+
+pub fn macro_circle(exposure~ : Int, diameter~ : Double, x~ : Double, y~ : Double) -> MacroPrimitive
+
+pub fn macro_outline(exposure~ : Int, points~ : Array[Point2]) -> MacroPrimitive
+
+pub fn material_family_name(MaterialFamily) -> String
+
+pub fn max(Double, Double) -> Double
+
+pub fn mechanical_layer_kind() -> LayerKind
+
+pub fn medium_fixture() -> FixtureSize
+
+pub fn merge_layers(Layer, Layer, name? : String) -> Layer
+
+pub fn millimeter_unit() -> LengthUnit
+
+pub fn min(Double, Double) -> Double
+
+pub fn new_aperture_table() -> ApertureTable
+
+pub fn new_arc_collection() -> ArcCollection
+
+pub fn new_gerber_attributes() -> GerberAttributes
+
+pub fn new_gerber_state() -> GerberState
+
+pub fn no_operation() -> ModalOperation
+
+pub fn normalize_excellon(String) -> String
+
+pub fn normalize_gerber(String) -> String
+
+pub fn normalize_record(String) -> String
+
+pub fn not_a_number_value() -> Double
+
+pub fn object_attribute_scope() -> GerberAttributeScope
+
+pub fn operation_from_code(String) -> ModalOperation
+
+pub fn operation_name(ModalOperation) -> String
+
+pub fn orient(Point2, Point2, Point2) -> Double
+
+pub fn outline_from_rectangle(Rect2) -> OutlineLoop
+
+pub fn outline_loop(Array[Point2], closed~ : Bool, kind~ : OutlineKind) -> OutlineLoop
+
+pub fn outline_to_region(OutlineLoop) -> Shape
+
+pub fn outline_to_segments(OutlineLoop, width? : Double) -> Array[Shape]
+
+pub fn parse_aperture_definition(Int, String) -> Aperture
+
+pub fn parse_attribute_record(String) -> GerberAttribute?
 
 pub fn parse_auto(String, name? : String) -> Layer
 
 pub fn parse_excellon(String, name? : String) -> Layer
 
+pub fn parse_excellon_document(String, name? : String) -> ExcellonDocument
+
+pub fn parse_excellon_with_diagnostics(String, name? : String) -> (Layer, Array[ParseDiagnostic])
+
+pub fn parse_format_statement(String, CoordinateFormat) -> CoordinateFormat
+
 pub fn parse_gerber(String, name? : String) -> Layer
 
+pub fn parse_gerber_document(String, name? : String) -> GerberDocument
+
+pub fn parse_gerber_with_diagnostics(String, name? : String) -> (Layer, Array[ParseDiagnostic])
+
+pub fn parse_macro_primitive(String) -> MacroPrimitive
+
+pub fn parse_notation_statement(String, CoordinateNotation) -> CoordinateNotation
+
+pub fn parse_unit_statement(String, LengthUnit) -> LengthUnit
+
+pub fn pipeline_format_from_name(String) -> PipelineFormat
+
+pub fn pipeline_format_name(PipelineFormat) -> String
+
+pub fn pipeline_render(PipelineResult, PipelineFormat) -> String
+
+pub fn pipeline_report_many(Array[(String, String)]) -> String
+
+pub fn point2(x~ : Double, y~ : Double) -> Point2
+
+pub fn point_on_segment(Point2, Point2, Point2, epsilon? : Double) -> Bool
+
+pub fn polygon_contains(Array[Point2], Point2) -> Bool
+
+pub fn polygon_self_intersects(Array[Point2]) -> Bool
+
+pub fn polyline(Array[Point2], closed? : Bool) -> Polyline
+
+pub fn process_many(Array[(String, String)], options? : PipelineOptions) -> PipelineResult
+
+pub fn process_text(String, source_name? : String, options? : PipelineOptions) -> PipelineResult
+
+pub fn prototype_fabrication_profile() -> FabricationProfile
+
+pub fn record_axes(String) -> Array[Char]
+
+pub fn record_code_value(String, StringView) -> Int?
+
+pub fn record_coordinate(String, Char) -> String?
+
+pub fn record_coordinate_number(String, Char) -> Double?
+
+pub fn record_has_code(String, StringView) -> Bool
+
+pub fn rect2(min_x~ : Double, min_y~ : Double, max_x~ : Double, max_y~ : Double) -> Rect2
+
 pub fn report(Board, min_width? : Double, min_drill? : Double) -> Report
+
+pub fn report_to_json(Report, include_shapes? : Bool) -> String
+
+pub fn run_benchmark_suite(FixtureSize, iterations? : Int) -> BenchmarkSuite
+
+pub fn run_dfm(Board, config? : DfmConfig) -> DfmReport
+
+pub fn sarif_pipeline_format() -> PipelineFormat
+
+pub fn segments_intersect(Point2, Point2, Point2, Point2) -> Bool
+
+pub fn shape_area(Shape) -> Double
+
+pub fn shape_class(Shape) -> ShapeClass
+
+pub fn shape_class_name(ShapeClass) -> String
+
+pub fn shape_drill_hit(x~ : Double, y~ : Double, diameter~ : Double) -> Shape
+
+pub fn shape_flash(x~ : Double, y~ : Double, aperture~ : Int) -> Shape
+
+pub fn shape_histogram(Board) -> Map[String, Int]
+
+pub fn shape_length(Shape) -> Double
+
+pub fn shape_pad(x~ : Double, y~ : Double, diameter~ : Double) -> Shape
+
+pub fn shape_region(points~ : Array[(Double, Double)]) -> Shape
+
+pub fn shape_scale(Shape, Double) -> Shape
+
+pub fn shape_segment(x1~ : Double, y1~ : Double, x2~ : Double, y2~ : Double, width~ : Double) -> Shape
+
+pub fn shape_to_json(Shape) -> String
+
+pub fn shape_translate(Shape, Point2) -> Shape
+
+pub fn silkscreen_layer_kind() -> LayerKind
+
+pub fn small_fixture() -> FixtureSize
+
+pub fn solder_mask_layer_kind() -> LayerKind
+
+pub fn source_span(start_line~ : Int, start_column~ : Int, end_line~ : Int, end_column~ : Int) -> SourceSpan
+
+pub fn spatial_index(cell_size? : Double) -> SpatialIndex
+
+pub fn spatial_index_for_board(Board, cell_size? : Double) -> SpatialIndex
+
+pub fn standard_fabrication_profile() -> FabricationProfile
+
+pub fn strict_dfm_config() -> DfmConfig
+
+pub fn strict_validation_options() -> ValidationOptions
+
+pub fn strip_gerber_comments(String) -> String
 
 pub fn supported_layer_kinds() -> Array[LayerKind]
 
 pub fn supported_shapes() -> Array[Shape]
+
+pub fn svg_pipeline_format() -> PipelineFormat
+
+pub fn text_pipeline_format() -> PipelineFormat
+
+pub fn tiny_fixture() -> FixtureSize
 
 pub fn to_ascii(Board, columns? : Int, rows? : Int) -> String
 
@@ -38,35 +444,538 @@ pub fn to_json(Report) -> String
 
 pub fn to_svg(Board) -> String
 
+pub fn token_kind_name(GerberTokenKind) -> String
+
+pub fn token_stream(Array[GerberToken]) -> TokenStream
+
+pub fn tokenize_excellon(String) -> Array[String]
+
+pub fn tokenize_gerber(String) -> Array[GerberToken]
+
+pub fn tokenize_records(String) -> Array[String]
+
+pub fn total_pad_area(Board) -> Double
+
+pub fn total_segment_length(Board) -> Double
+
+pub fn trailing_zero_suppression() -> ZeroSuppression
+
 pub fn unit_to_string(LengthUnit) -> String
+
+pub fn unknown_layer_kind() -> LayerKind
+
+pub fn validate_board(Board, options? : DfmConfig) -> ValidationResult
+
+pub fn validate_excellon(String, options? : ValidationOptions) -> ValidationResult
+
+pub fn validate_gerber(String, options? : ValidationOptions) -> ValidationResult
+
+pub fn validation_invalid_status() -> ValidationStatus
+
+pub fn validation_issue(String, String, DfmSeverity, Int?, Int?) -> ValidationIssue
+
+pub fn validation_result_to_json(ValidationResult) -> String
+
+pub fn validation_status_name(ValidationStatus) -> String
+
+pub fn validation_valid_status() -> ValidationStatus
+
+pub fn validation_warning_status() -> ValidationStatus
+
+pub fn warning_diagnostic() -> DiagnosticSeverity
 
 // Errors
 
 // Types and methods
+pub struct Aperture {
+  code : Int
+  kind : ApertureKind
+  hole : Double?
+} derive(@debug.Debug)
+pub fn Aperture::area(Self) -> Double
+pub fn Aperture::bounds(Self, Point2) -> Rect2
+pub fn Aperture::is_known(Self) -> Bool
+pub fn Aperture::outer_height(Self) -> Double
+pub fn Aperture::outer_width(Self) -> Double
+pub fn Aperture::radius(Self) -> Double
+pub fn Aperture::to_shape(Self, Point2) -> Shape
+
+pub enum ApertureKind {
+  CircleAperture(diameter~ : Double)
+  RectangleAperture(width~ : Double, height~ : Double)
+  ObroundAperture(width~ : Double, height~ : Double)
+  PolygonAperture(diameter~ : Double, vertices~ : Int, rotation~ : Double)
+  MacroAperture(name~ : String, modifiers~ : Array[Double])
+  UnknownAperture(raw~ : String)
+} derive(@debug.Debug)
+
+pub struct ApertureMacro {
+  name : String
+  primitives : Array[MacroPrimitive]
+} derive(@debug.Debug)
+pub fn ApertureMacro::bounds(Self) -> Rect2?
+pub fn ApertureMacro::primitive_count(Self) -> Int
+
+pub struct ApertureTable {
+  apertures : Array[Aperture]
+  macros : Array[ApertureMacro]
+} derive(@debug.Debug)
+pub fn ApertureTable::add_or_replace(Self, Aperture) -> Unit
+pub fn ApertureTable::clear(Self) -> Unit
+pub fn ApertureTable::count(Self) -> Int
+pub fn ApertureTable::get(Self, Int) -> Aperture?
+pub fn ApertureTable::require(Self, Int) -> Aperture
+
+pub struct Arc2 {
+  center : Point2
+  start : Point2
+  end : Point2
+  radius : Double
+  direction : ArcDirection
+  full_circle : Bool
+} derive(@debug.Debug)
+pub fn Arc2::bounds(Self) -> Rect2
+pub fn Arc2::length(Self) -> Double
+pub fn Arc2::point_at(Self, Double) -> Point2
+pub fn Arc2::point_count(Self, maximum_step? : Double) -> Int
+pub fn Arc2::sample(Self, maximum_step? : Double) -> Array[Point2]
+pub fn Arc2::sweep_angle(Self) -> Double
+pub fn Arc2::to_segments(Self, Double) -> Array[Shape]
+
+pub struct ArcCollection {
+  arcs : Array[Arc2]
+} derive(@debug.Debug)
+pub fn ArcCollection::bounds(Self) -> Rect2?
+pub fn ArcCollection::flatten(Self, Double) -> Array[Shape]
+pub fn ArcCollection::length(Self) -> Double
+pub fn ArcCollection::push(Self, Arc2) -> Unit
+
+pub enum ArcDirection {
+  ClockwiseArc
+  CounterClockwiseArc
+} derive(Eq, @debug.Debug)
+
+pub struct BenchmarkResult {
+  name : String
+  input_size : Int
+  iterations : Int
+  elapsed_ticks : UInt64
+  operations : Int
+  shapes : Int
+} derive(@debug.Debug)
+pub fn BenchmarkResult::operations_per_tick(Self) -> Double
+pub fn BenchmarkResult::summary(Self) -> String
+pub fn BenchmarkResult::ticks_per_operation(Self) -> Double
+
+pub struct BenchmarkSuite {
+  results : Array[BenchmarkResult]
+  toolchain : String
+  fixture : String
+} derive(@debug.Debug)
+pub fn BenchmarkSuite::summary(Self) -> String
+pub fn BenchmarkSuite::to_json(Self) -> String
+pub fn BenchmarkSuite::to_markdown(Self) -> String
+pub fn BenchmarkSuite::total_operations(Self) -> Int
+pub fn BenchmarkSuite::total_ticks(Self) -> UInt64
+
 pub struct Board {
   layers : Array[Layer]
-}
+} derive(@debug.Debug)
+
+pub struct BoardBuilder {
+  layers : Array[Layer]
+} derive(@debug.Debug)
+pub fn BoardBuilder::add_layer(Self, Layer) -> Unit
+pub fn BoardBuilder::add_shape(Self, String, Shape) -> Unit
+pub fn BoardBuilder::finish(Self) -> Board
+
+pub struct BoardMetrics {
+  layers : Array[LayerMetrics]
+  shape_count : Int
+  total_trace_length : Double
+  total_copper_area : Double
+  total_drill_area : Double
+  bounds : Rect2?
+} derive(@debug.Debug)
+pub fn BoardMetrics::density(Self) -> Double
+pub fn BoardMetrics::layer(Self, String) -> LayerMetrics?
+pub fn BoardMetrics::summary(Self) -> String
+pub fn BoardMetrics::to_json(Self) -> String
 
 pub struct BoundingBox {
   min_x : Double
   min_y : Double
   max_x : Double
   max_y : Double
-}
+} derive(@debug.Debug)
+
+pub struct Circle2 {
+  center : Point2
+  radius : Double
+} derive(@debug.Debug)
+pub fn Circle2::bounds(Self) -> Rect2
+pub fn Circle2::contains(Self, Point2) -> Bool
+
+pub struct ConnectivityGraph {
+  nodes : Array[ConnectivityNode]
+  links : Array[ConnectivityLink]
+  tolerance : Double
+  component_count : Int
+  total_length : Double
+} derive(@debug.Debug)
+pub fn ConnectivityGraph::component_count(Self) -> Int
+pub fn ConnectivityGraph::drill_terminal_count(Self) -> Int
+pub fn ConnectivityGraph::geometric_link_count(Self) -> Int
+pub fn ConnectivityGraph::has_open_trace_endpoints(Self) -> Bool
+pub fn ConnectivityGraph::internal_link_count(Self) -> Int
+pub fn ConnectivityGraph::isolated_node_count(Self) -> Int
+pub fn ConnectivityGraph::layer_link_count(Self, Int) -> Int
+pub fn ConnectivityGraph::layer_node_count(Self, Int) -> Int
+pub fn ConnectivityGraph::layer_summary(Self, Int) -> String
+pub fn ConnectivityGraph::link_count(Self) -> Int
+pub fn ConnectivityGraph::links(Self) -> Array[ConnectivityLink]
+pub fn ConnectivityGraph::node_count(Self) -> Int
+pub fn ConnectivityGraph::nodes(Self) -> Array[ConnectivityNode]
+pub fn ConnectivityGraph::summary(Self) -> String
+pub fn ConnectivityGraph::to_csv(Self) -> String
+pub fn ConnectivityGraph::to_json(Self) -> String
+pub fn ConnectivityGraph::trace_endpoint_count(Self) -> Int
+
+pub struct ConnectivityLink {
+  from : Int
+  to : Int
+  distance : Double
+  internal : Bool
+} derive(@debug.Debug)
+pub fn ConnectivityLink::format(Self) -> String
+pub fn ConnectivityLink::is_internal(Self) -> Bool
+
+pub struct ConnectivityNode {
+  id : Int
+  layer_index : Int
+  shape_index : Int
+  point : Point2
+  kind : ConnectivityNodeKind
+} derive(@debug.Debug)
+pub fn ConnectivityNode::is_drill(Self) -> Bool
+pub fn ConnectivityNode::kind_name(Self) -> String
+pub fn ConnectivityNode::location(Self) -> Point2
+
+pub enum ConnectivityNodeKind {
+  TraceEndpoint
+  PadTerminal
+  DrillTerminal
+  RegionTerminal
+} derive(Eq, @debug.Debug)
+
+pub struct CoordinateFormat {
+  integer_digits : Int
+  decimal_digits : Int
+  zero_suppression : ZeroSuppression
+  notation : CoordinateNotation
+  unit : LengthUnit
+} derive(@debug.Debug)
+pub fn CoordinateFormat::format_axis(Self, Double) -> String
+pub fn CoordinateFormat::parse_axis(Self, String) -> Double?
+pub fn CoordinateFormat::scale(Self) -> Double
+pub fn CoordinateFormat::total_digits(Self) -> Int
+
+pub enum CoordinateNotation {
+  AbsoluteNotation
+  IncrementalNotation
+} derive(Eq, @debug.Debug)
+
+pub struct DfmConfig {
+  min_width : Double
+  min_drill : Double
+  min_clearance : Double
+  min_annular_ring : Double
+  max_board_width : Double
+  max_board_height : Double
+  require_outline : Bool
+  require_drill_layer : Bool
+  check_duplicates : Bool
+  check_geometry : Bool
+} derive(@debug.Debug)
+pub fn DfmConfig::with_minimums(Self, min_width? : Double, min_drill? : Double, min_clearance? : Double) -> Self
+
+pub struct DfmFinding {
+  rule : DfmRuleId
+  severity : DfmSeverity
+  message : String
+  layer : String
+  shape_index : Int?
+  location : Point2?
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+pub fn DfmFinding::format(Self) -> String
+pub fn DfmFinding::rule_name(Self) -> String
+pub fn DfmFinding::severity_name(Self) -> String
+
+pub struct DfmReport {
+  findings : Array[DfmFinding]
+  config : DfmConfig
+  layer_count : Int
+  shape_count : Int
+  checked_rules : Int
+} derive(@debug.Debug)
+pub fn DfmReport::error_count(Self) -> Int
+pub fn DfmReport::info_count(Self) -> Int
+pub fn DfmReport::passed(Self) -> Bool
+pub fn DfmReport::summary(Self) -> String
+pub fn DfmReport::to_issues(Self) -> Array[Issue]
+pub fn DfmReport::warning_count(Self) -> Int
+
+pub enum DfmRuleId {
+  EmptyLayerRule
+  MinimumWidthRule
+  MinimumDrillRule
+  MinimumClearanceRule
+  AnnularRingRule
+  BoardSizeRule
+  OutlineClosedRule
+  RegionValidityRule
+  DuplicateShapeRule
+  LayerBalanceRule
+  NonFiniteGeometryRule
+  UnknownApertureRule
+  MissingDrillLayerRule
+} derive(Eq, @debug.Debug)
+
+pub enum DfmSeverity {
+  DfmInfo
+  DfmWarning
+  DfmError
+} derive(Eq, @debug.Debug)
+
+pub enum DiagnosticSeverity {
+  InfoDiagnostic
+  WarningDiagnostic
+  ErrorDiagnostic
+} derive(Eq, @debug.Debug)
+
+pub struct DoubleRange {
+  start : Double
+  end : Double
+} derive(@debug.Debug)
+pub fn DoubleRange::clamp(Self, Double) -> Double
+pub fn DoubleRange::contains(Self, Double) -> Bool
+pub fn DoubleRange::length(Self) -> Double
+
+pub struct DrillTool {
+  code : Int
+  diameter : Double
+  feed_rate : Double?
+  retract_rate : Double?
+  description : String?
+} derive(@debug.Debug)
+pub fn DrillTool::area(Self) -> Double
+pub fn DrillTool::valid(Self) -> Bool
+
+pub struct ExcellonDocument {
+  layer : Layer
+  tools : Array[DrillTool]
+  diagnostics : Array[ParseDiagnostic]
+  records : Int
+  hits : Int
+  slots : Int
+  unit : LengthUnit
+} derive(@debug.Debug)
+pub fn ExcellonDocument::error_count(Self) -> Int
+pub fn ExcellonDocument::summary(Self) -> String
+pub fn ExcellonDocument::tool(Self, Int) -> DrillTool?
+pub fn ExcellonDocument::tool_count(Self) -> Int
+
+pub struct ExcellonFormat {
+  integer_digits : Int
+  decimal_digits : Int
+  zero_mode : ExcellonZeroMode
+  unit : LengthUnit
+} derive(@debug.Debug)
+pub fn ExcellonFormat::parse_number(Self, String) -> Double?
+pub fn ExcellonFormat::scale(Self) -> Double
+
+type ExcellonState derive(@debug.Debug)
+
+pub enum ExcellonZeroMode {
+  ExcellonLeadingZeros
+  ExcellonTrailingZeros
+  ExcellonDecimal
+} derive(Eq, @debug.Debug)
+
+pub struct FabricationAssessment {
+  profile : FabricationProfile
+  passed : Bool
+  score : Double
+  checks : Array[FabricationCheck]
+  board_area : Double
+  copper_area : Double
+  drill_count : Int
+  estimated_minutes : Double
+  estimated_cost : Double
+} derive(@debug.Debug)
+pub fn FabricationAssessment::check_count(Self) -> Int
+pub fn FabricationAssessment::failed_check_count(Self) -> Int
+pub fn FabricationAssessment::summary(Self) -> String
+pub fn FabricationAssessment::to_json(Self) -> String
+pub fn FabricationAssessment::to_text(Self) -> String
+
+pub struct FabricationCheck {
+  code : String
+  passed : Bool
+  message : String
+  measured : Double?
+  limit : Double?
+} derive(@debug.Debug)
+pub fn FabricationCheck::code(Self) -> String
+pub fn FabricationCheck::format(Self) -> String
+pub fn FabricationCheck::is_passed(Self) -> Bool
+
+pub enum FabricationClass {
+  PrototypeClass
+  StandardClass
+  FinePitchClass
+} derive(Eq, @debug.Debug)
+
+pub struct FabricationProfile {
+  name : String
+  class : FabricationClass
+  material : MaterialFamily
+  min_trace_width : Double
+  min_clearance : Double
+  min_drill : Double
+  max_board_width : Double
+  max_board_height : Double
+  max_layers : Int
+  preferred_finish : String
+} derive(@debug.Debug)
+pub fn FabricationProfile::class_name(Self) -> String
+pub fn FabricationProfile::material_name(Self) -> String
+pub fn FabricationProfile::name(Self) -> String
+pub fn FabricationProfile::summary(Self) -> String
+
+type FixtureRng derive(@debug.Debug)
+
+pub enum FixtureSize {
+  TinyFixture
+  SmallFixture
+  MediumFixture
+  LargeFixture
+} derive(Eq, @debug.Debug)
+
+pub struct GerberAttribute {
+  scope : GerberAttributeScope
+  name : String
+  values : Array[String]
+  record : String
+} derive(@debug.Debug)
+pub fn GerberAttribute::scope_name(Self) -> String
+pub fn GerberAttribute::to_record(Self) -> String
+pub fn GerberAttribute::value(Self, Int) -> String?
+
+pub enum GerberAttributeScope {
+  FileAttribute
+  ApertureAttribute
+  ObjectAttribute
+  DeleteAttribute
+} derive(Eq, @debug.Debug)
+
+pub struct GerberAttributes {
+  items : Array[GerberAttribute]
+  fields : Map[String, Array[String]]
+} derive(@debug.Debug)
+pub fn GerberAttributes::add(Self, GerberAttribute) -> Unit
+pub fn GerberAttributes::all(Self) -> Array[GerberAttribute]
+pub fn GerberAttributes::count(Self) -> Int
+pub fn GerberAttributes::file_function(Self) -> String?
+pub fn GerberAttributes::first(Self, String) -> String?
+pub fn GerberAttributes::generation_software(Self) -> String?
+pub fn GerberAttributes::get(Self, String) -> Array[String]
+pub fn GerberAttributes::has(Self, String) -> Bool
+pub fn GerberAttributes::parse(String) -> Self
+pub fn GerberAttributes::part(Self) -> String?
+pub fn GerberAttributes::to_json(Self) -> String
+
+pub struct GerberDocument {
+  layer : Layer
+  diagnostics : Array[ParseDiagnostic]
+  apertures : ApertureTable
+  records : Int
+  commands : Int
+  draws : Int
+  flashes : Int
+  moves : Int
+  regions : Int
+} derive(@debug.Debug)
+pub fn GerberDocument::error_count(Self) -> Int
+pub fn GerberDocument::has_errors(Self) -> Bool
+pub fn GerberDocument::summary(Self) -> String
+pub fn GerberDocument::warning_count(Self) -> Int
+
+pub struct GerberState {
+  mut format : CoordinateFormat
+  mut current : Point2
+  mut previous : Point2
+  mut aperture_code : Int?
+  mut operation : ModalOperation
+  mut interpolation : Int
+  quadrant_mode : Int
+  mut region_open : Bool
+  region_points : Array[Point2]
+} derive(@debug.Debug)
+pub fn GerberState::append_region_point(Self, Point2) -> Unit
+pub fn GerberState::finish_region(Self) -> Array[Point2]
+pub fn GerberState::parse_point(Self, String) -> Point2?
+pub fn GerberState::select_aperture(Self, Int) -> Unit
+pub fn GerberState::set_format(Self, CoordinateFormat) -> Unit
+pub fn GerberState::set_interpolation(Self, Int) -> Unit
+pub fn GerberState::set_operation(Self, ModalOperation) -> Unit
+pub fn GerberState::set_unit(Self, LengthUnit) -> Unit
+pub fn GerberState::start_region(Self) -> Unit
+pub fn GerberState::update_point(Self, Double?, Double?) -> Point2
+
+pub struct GerberToken {
+  kind : GerberTokenKind
+  text : String
+  line : Int
+  column : Int
+} derive(@debug.Debug)
+pub fn GerberToken::display(Self) -> String
+pub fn GerberToken::is_command(Self) -> Bool
+pub fn GerberToken::is_coordinate(Self) -> Bool
+pub fn GerberToken::location(Self) -> String
+
+pub enum GerberTokenKind {
+  ParameterStart
+  ParameterEnd
+  Command
+  Coordinate
+  Attribute
+  Comment
+  EndOfFile
+  Unknown
+} derive(Eq, @debug.Debug)
+
+pub enum InputKind {
+  GerberInput
+  ExcellonInput
+  UnknownInput
+} derive(Eq, @debug.Debug)
 
 pub struct Issue {
   rule : String
   severity : String
   message : String
   layer : String
-}
+} derive(@debug.Debug)
 
 pub struct Layer {
   name : String
   kind : LayerKind
   unit : LengthUnit
   shapes : Array[Shape]
-}
+} derive(@debug.Debug)
 
 pub enum LayerKind {
   Copper
@@ -75,7 +984,40 @@ pub enum LayerKind {
   Drill
   Mechanical
   Unknown
-}
+} derive(Eq, @debug.Debug)
+
+pub struct LayerMetadata {
+  name : String
+  role : LayerRole
+  kind : LayerKind
+  attributes : GerberAttributes
+} derive(@debug.Debug)
+pub fn LayerMetadata::to_json(Self) -> String
+
+pub struct LayerMetrics {
+  name : String
+  kind : LayerKind
+  shape_count : Int
+  trace_length : Double
+  copper_area : Double
+  drill_area : Double
+  bounds : Rect2?
+  classes : Map[String, Int]
+} derive(@debug.Debug)
+pub fn LayerMetrics::class_count(Self, ShapeClass) -> Int
+pub fn LayerMetrics::density(Self) -> Double
+
+pub enum LayerRole {
+  TopCopperRole
+  BottomCopperRole
+  InnerCopperRole
+  SolderMaskRole
+  SilkscreenRole
+  DrillRole
+  OutlineRole
+  DocumentationRole
+  UnknownRole
+} derive(Eq, @debug.Debug)
 
 pub struct LayerStats {
   name : String
@@ -90,14 +1032,183 @@ pub struct LayerStats {
 pub enum LengthUnit {
   Millimeter
   Inch
-}
+} derive(Eq, @debug.Debug)
 pub fn LengthUnit::scale_to_mm(Self) -> Double
+
+pub enum MacroPrimitive {
+  MacroCircle(exposure~ : Int, diameter~ : Double, x~ : Double, y~ : Double)
+  MacroVector(exposure~ : Int, width~ : Double, x1~ : Double, y1~ : Double, x2~ : Double, y2~ : Double)
+  MacroCenterLine(exposure~ : Int, width~ : Double, height~ : Double, x~ : Double, y~ : Double)
+  MacroOutline(exposure~ : Int, points~ : Array[Point2])
+  MacroPolygon(exposure~ : Int, vertices~ : Int, diameter~ : Double, rotation~ : Double, x~ : Double, y~ : Double)
+  MacroComment(text~ : String)
+  MacroUnknown(raw~ : String)
+} derive(@debug.Debug)
+
+pub enum MaterialFamily {
+  Fr4Material
+  HighTgMaterial
+  AluminumMaterial
+  FlexibleMaterial
+} derive(Eq, @debug.Debug)
+
+pub enum ModalOperation {
+  MoveOperation
+  DrawOperation
+  FlashOperation
+  RegionMoveOperation
+  RegionDrawOperation
+  NoOperation
+} derive(Eq, @debug.Debug)
+
+pub struct OutlineAnalysis {
+  loops : Array[OutlineLoop]
+  bounds : Rect2?
+  total_perimeter : Double
+  outer_area : Double
+  cutout_area : Double
+  is_valid : Bool
+  warnings : Array[String]
+} derive(@debug.Debug)
+pub fn OutlineAnalysis::area_with_cutouts(Self) -> Double
+pub fn OutlineAnalysis::contains(Self, Point2) -> Bool
+pub fn OutlineAnalysis::cutouts(Self) -> Array[OutlineLoop]
+pub fn OutlineAnalysis::invalid_contours(Self) -> Array[OutlineLoop]
+pub fn OutlineAnalysis::largest_outer(Self) -> OutlineLoop?
+pub fn OutlineAnalysis::loop_count(Self) -> Int
+pub fn OutlineAnalysis::open_contours(Self) -> Array[OutlineLoop]
+pub fn OutlineAnalysis::summary(Self) -> String
+pub fn OutlineAnalysis::to_json(Self) -> String
+
+pub enum OutlineKind {
+  OuterOutline
+  InnerCutout
+  OpenContour
+  InvalidContour
+} derive(Eq, @debug.Debug)
+
+pub struct OutlineLoop {
+  points : Array[Point2]
+  closed : Bool
+  kind : OutlineKind
+} derive(@debug.Debug)
+pub fn OutlineLoop::area(Self) -> Double
+pub fn OutlineLoop::bounds(Self) -> Rect2?
+pub fn OutlineLoop::contains(Self, Point2) -> Bool
+pub fn OutlineLoop::kind_name(Self) -> String
+pub fn OutlineLoop::perimeter(Self) -> Double
+pub fn OutlineLoop::reversed(Self) -> Self
+pub fn OutlineLoop::signed_area(Self) -> Double
+
+pub struct ParseDiagnostic {
+  severity : DiagnosticSeverity
+  code : String
+  message : String
+  line : Int
+  column : Int
+  record : String
+} derive(@debug.Debug)
+pub fn ParseDiagnostic::format(Self) -> String
+pub fn ParseDiagnostic::is_error(Self) -> Bool
+pub fn ParseDiagnostic::severity_name(Self) -> String
+
+pub enum ParsedInput {
+  GerberParsed(document~ : GerberDocument)
+  ExcellonParsed(document~ : ExcellonDocument)
+  UnknownParsed(text~ : String)
+} derive(@debug.Debug)
+
+pub enum PipelineFormat {
+  JsonOutput
+  SvgOutput
+  AsciiOutput
+  SarifOutput
+  CsvOutput
+  TextOutput
+  HtmlOutput
+} derive(Eq, @debug.Debug)
+
+pub struct PipelineOptions {
+  dfm : DfmConfig
+  validation : ValidationOptions
+  format : PipelineFormat
+  include_shapes : Bool
+  analyze_outline : Bool
+} derive(@debug.Debug)
+
+pub struct PipelineResult {
+  input_kind : InputKind
+  source_name : String
+  input_size : Int
+  parsed : ParsedInput
+  board : Board
+  validation : ValidationResult
+  dfm : DfmReport
+  outline : OutlineAnalysis?
+} derive(@debug.Debug)
+pub fn PipelineResult::error_count(Self) -> Int
+pub fn PipelineResult::exit_code(Self) -> Int
+pub fn PipelineResult::outline_summary(Self) -> String
+pub fn PipelineResult::passed(Self) -> Bool
+pub fn PipelineResult::summary(Self) -> String
+pub fn PipelineResult::to_json(Self) -> String
+pub fn PipelineResult::to_sarif(Self) -> String
+
+pub struct Point2 {
+  x : Double
+  y : Double
+} derive(Eq, @debug.Debug)
+pub fn Point2::add(Self, Self) -> Self
+pub fn Point2::cross(Self, Self) -> Double
+pub fn Point2::distance(Self, Self) -> Double
+pub fn Point2::distance_squared(Self, Self) -> Double
+pub fn Point2::dot(Self, Self) -> Double
+pub fn Point2::length(Self) -> Double
+pub fn Point2::length_squared(Self) -> Double
+pub fn Point2::lerp(Self, Self, Double) -> Self
+pub fn Point2::near(Self, Self, epsilon? : Double) -> Bool
+pub fn Point2::scale(Self, Double) -> Self
+pub fn Point2::sub(Self, Self) -> Self
+
+pub struct Polyline {
+  points : Array[Point2]
+  closed : Bool
+} derive(@debug.Debug)
+pub fn Polyline::area(Self) -> Double
+pub fn Polyline::bounds(Self) -> Rect2?
+pub fn Polyline::clockwise(Self) -> Bool
+pub fn Polyline::is_empty(Self) -> Bool
+pub fn Polyline::length(Self) -> Double
+pub fn Polyline::point_count(Self) -> Int
+pub fn Polyline::reversed(Self) -> Self
+pub fn Polyline::signed_area(Self) -> Double
+
+pub struct Rect2 {
+  min_x : Double
+  min_y : Double
+  max_x : Double
+  max_y : Double
+} derive(@debug.Debug)
+pub fn Rect2::area(Self) -> Double
+pub fn Rect2::center(Self) -> Point2
+pub fn Rect2::contains(Self, Point2) -> Bool
+pub fn Rect2::contains_rect(Self, Self) -> Bool
+pub fn Rect2::empty(Self) -> Bool
+pub fn Rect2::expand(Self, Double) -> Self
+pub fn Rect2::height(Self) -> Double
+pub fn Rect2::include_point(Self, Point2) -> Self
+pub fn Rect2::intersection(Self, Self) -> Self?
+pub fn Rect2::intersects(Self, Self) -> Bool
+pub fn Rect2::perimeter(Self) -> Double
+pub fn Rect2::translate(Self, Point2) -> Self
+pub fn Rect2::union(Self, Self) -> Self
+pub fn Rect2::width(Self) -> Double
 
 pub struct Report {
   board : Board
   issues : Array[Issue]
   bbox : BoundingBox?
-}
+} derive(@debug.Debug)
 
 pub enum Shape {
   Segment(x1~ : Double, y1~ : Double, x2~ : Double, y2~ : Double, width~ : Double)
@@ -105,9 +1216,111 @@ pub enum Shape {
   Flash(x~ : Double, y~ : Double, aperture~ : Int)
   Region(points~ : Array[(Double, Double)])
   DrillHit(x~ : Double, y~ : Double, diameter~ : Double)
-}
+} derive(@debug.Debug)
+
+pub enum ShapeClass {
+  TraceShape
+  PadShape
+  FlashShape
+  DrillShape
+  RegionShape
+} derive(Eq, @debug.Debug)
+
+pub struct ShapeMetrics {
+  class : ShapeClass
+  length : Double
+  area : Double
+  bounds : Rect2?
+  vertices : Int
+} derive(@debug.Debug)
+
+pub struct SourceSpan {
+  start_line : Int
+  start_column : Int
+  end_line : Int
+  end_column : Int
+} derive(@debug.Debug)
+pub fn SourceSpan::contains(Self, line~ : Int, column~ : Int) -> Bool
+pub fn SourceSpan::to_string(Self) -> String
+
+pub struct SpatialEntry {
+  layer_index : Int
+  shape_index : Int
+  bounds : Rect2
+} derive(@debug.Debug)
+
+pub struct SpatialIndex {
+  cell_size : Double
+  cells : Map[String, Array[SpatialEntry]]
+  entries : Array[SpatialEntry]
+} derive(@debug.Debug)
+pub fn SpatialIndex::cell_count(Self) -> Int
+pub fn SpatialIndex::clear(Self) -> Unit
+pub fn SpatialIndex::density(Self) -> Double
+pub fn SpatialIndex::entry_count(Self) -> Int
+pub fn SpatialIndex::insert(Self, Int, Int, Rect2) -> Unit
+pub fn SpatialIndex::insert_board(Self, Board) -> Unit
+pub fn SpatialIndex::layer_query(Self, Int, Rect2) -> Array[SpatialEntry]
+pub fn SpatialIndex::nearest(Self, Point2, limit? : Int) -> Array[SpatialEntry]
+pub fn SpatialIndex::occupied_cells(Self) -> Array[String]
+pub fn SpatialIndex::overlap_pairs(Self) -> Array[(SpatialEntry, SpatialEntry)]
+pub fn SpatialIndex::query(Self, Rect2) -> Array[SpatialEntry]
+pub fn SpatialIndex::query_point(Self, Point2, radius? : Double) -> Array[SpatialEntry]
+pub fn SpatialIndex::rebuild(Self, Board) -> Unit
+pub fn SpatialIndex::shape_query(Self, Int, Int) -> SpatialEntry?
+
+pub struct TokenStream {
+  tokens : Array[GerberToken]
+  mut index : Int
+} derive(@debug.Debug)
+pub fn TokenStream::at_end(Self) -> Bool
+pub fn TokenStream::peek(Self) -> GerberToken?
+pub fn TokenStream::skip_until(Self, GerberTokenKind) -> Int
+pub fn TokenStream::take(Self) -> GerberToken?
+
+pub struct ValidationIssue {
+  code : String
+  message : String
+  severity : DfmSeverity
+  line : Int?
+  column : Int?
+} derive(@debug.Debug)
+pub fn ValidationIssue::format(Self) -> String
+pub fn ValidationIssue::severity_name(Self) -> String
+
+pub struct ValidationOptions {
+  max_records : Int
+  max_shapes : Int
+  reject_unknown_records : Bool
+  reject_empty_input : Bool
+  require_end_record : Bool
+  check_coordinates : Bool
+} derive(@debug.Debug)
+
+pub struct ValidationResult {
+  status : ValidationStatus
+  issues : Array[ValidationIssue]
+  records : Int
+  shapes : Int
+  normalized : Bool
+} derive(@debug.Debug)
+pub fn ValidationResult::error_count(Self) -> Int
+pub fn ValidationResult::is_valid(Self) -> Bool
+pub fn ValidationResult::summary(Self) -> String
+pub fn ValidationResult::warning_count(Self) -> Int
+
+pub enum ValidationStatus {
+  ValidInput
+  ValidWithWarnings
+  InvalidInput
+} derive(Eq, @debug.Debug)
+
+pub enum ZeroSuppression {
+  LeadingZeros
+  TrailingZeros
+  ExplicitZeros
+} derive(Eq, @debug.Debug)
 
 // Type aliases
 
 // Traits
-

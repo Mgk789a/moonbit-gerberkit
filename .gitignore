@@ -1,2 +1,6 @@
 _build/
+.repos/
+.moon/
+*.prof
+profile.json
 .mooncakes/

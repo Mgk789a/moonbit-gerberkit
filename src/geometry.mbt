@@ -33,7 +33,7 @@ fn shape_bounds(shape : Shape) -> BoundingBox? {
         None
       } else {
         let (x0, y0) = points[0]
-        let b = { min_x: x0, min_y: y0, max_x: x0, max_y: y0 }
+        let b : BoundingBox = { min_x: x0, min_y: y0, max_x: x0, max_y: y0 }
         Some(
           points.fold(init=b, (acc, p) => {
             let (x, y) = p

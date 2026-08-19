@@ -1,44 +1,149 @@
 # moonbit-gerberkit
 
-MoonBit PCB 制造数据解析与检查工具。项目面向开源硬件协作和 CI，在 PCB 生产前把 Gerber RS-274X 与 Excellon 钻孔数据转换为统一的几何中间表示，并输出机器可读报告和轻量预览。
+MoonBit library and CLI for inspecting PCB manufacturing data before fabrication. It parses Gerber RS-274X and Excellon drill files into a shared geometry model, applies deterministic DFM rules, and emits reports suitable for local tooling and CI.
 
-## 当前范围
+## Project positioning
 
-- Gerber：单位识别、坐标、光圈宽度、D01 绘线和 D03 闪点。
-- Excellon：单位、刀具直径、钻孔坐标。
-- 中间表示：层、线路、焊盘、区域、钻孔、包围盒。
-- DFM 基础规则：空层、极小线宽和异常小孔。
-- 输出：JSON、SVG、ASCII；核心 API 可嵌入 MoonBit 工程。
+moonbit-gerberkit sits between PCB export and manufacturing review:
 
-首版明确不实现完整 PCB 布线器、布尔几何内核和生产商专有扩展。后续可扩展铜皮间距、阻焊桥、孔环、板框闭合性与更多 RS-274X aperture macro。
+1. decode manufacturing records and modal state;
+2. normalize units and geometry into a board model;
+3. validate input and check fabrication constraints;
+4. produce JSON, SVG, ASCII, SARIF, CSV, HTML, and text reports.
 
-## 快速开始
+The project is designed for reproducible inspection. It does not claim to reconstruct schematic net names or replace a full PCB boolean-geometry kernel.
 
-需要 MoonBit 0.10.3 或更新版本：
+## Core capabilities
 
-```bash
+- Gerber tokenizer, source diagnostics, coordinate formats, units, modal operations, regions, circular interpolation, apertures, and aperture macros.
+- Excellon tool tables, metric/inch units, leading/trailing/explicit coordinate modes, absolute/incremental moves, and routed slots.
+- Geometry primitives for points, rectangles, polylines, circles, arcs, intersections, containment, bounds, and spatial indexing.
+- DFM checks for minimum width, clearance, drill size, annular ring, board envelope, duplicate geometry, finite coordinates, outline closure, layer balance, and unknown apertures.
+- Manufacturing profiles for prototype, standard, fine-pitch, aluminum, and flexible boards.
+- Geometric connectivity analysis for trace endpoints, pads, drills, regions, components, and isolated terminals.
+- Deterministic fixtures, metrics, validation, benchmark reporting, SARIF annotations, and machine-readable output.
+
+## Quick start
+
+The repository uses the MoonBit stable toolchain available through the official installer. A native toolchain is preferred for the CLI.
+
+~~~
+moon version --all
+moon update
 moon check --deny-warn
 moon test --deny-warn
 moon run --target native cmd/gerberkit
-```
+~~~
 
-库入口在 `src` 包：`parse_gerber`、`parse_excellon`、`parse_auto`、`report`、`to_json`、`to_svg` 和 `to_ascii`。当前命令行示例使用内置样例，后续会加入文件参数和目录批处理。
+The default CLI input is a built-in sample. To inspect a file:
 
-## 设计
+~~~
+moon run --target native cmd/gerberkit -- board.gbr --format=json
+moon run --target native cmd/gerberkit -- PTH.drl --format=sarif
+~~~
 
-解析器只负责把制造指令变成几何对象，检查器只消费中间表示，因此可以独立替换语法解析、规则集和渲染器。所有坐标在层进入中间表示时统一为毫米，`convert` 保留用于 API 使用方的显式单位换算。
+Gerber and Excellon input is detected from its headers and records. Coordinates are normalized to millimeters in the board model.
 
-## 项目来源与许可证
+## CLI
 
-这是原创 MoonBit 工具项目，不是其他语言项目的直接移植；Gerber/Excellon 是公开制造文件格式，本仓库未复制第三方实现代码。项目采用 Apache-2.0，见 [LICENSE](LICENSE)。测试夹具为本仓库自编的短文本，不含商业 PCB 数据。
+~~~
+moon run --target native cmd/gerberkit [file] [options]
 
-## 参赛材料说明
+--format=json|svg|ascii|text|csv|sarif|html|fabrication
+--check
+--connectivity
+--bench --fixture=tiny|small|medium|large
+~~~
 
-本仓库为 2026 MoonBit 8 月黑客松准备。开发过程保留可追踪的 Git 提交；CI 覆盖格式化、警告检查、接口信息生成、默认后端与 native 测试。模块地址和仓库地址均已指向正式 GitHub 仓库，并确认远程 `main` 分支。
+Examples:
 
-## Roadmap
+~~~
+moon run --target native cmd/gerberkit -- board.gbr --format=svg
+moon run --target native cmd/gerberkit -- board.gbr --format=fabrication
+moon run --target native cmd/gerberkit -- board.gbr --connectivity
+moon run --target native cmd/gerberkit -- --bench --fixture=medium
+~~~
 
-1. 完善 Gerber 状态机、区域轮廓和 aperture macro。
-2. 增加板框闭合、孤立图形、孔环和层间距规则。
-3. 增加真实文件 CLI、目录扫描、稳定 JSON schema 与 SARIF 输出。
-4. 发布到 mooncakes.io，并补充跨平台 CI 与性能基准。
+--check prints the legacy issue count for scripts that only need a scalar result. For CI integration, SARIF and CSV preserve individual DFM findings.
+
+## Library API
+
+The src package exposes the main integration points:
+
+~~~moonbit nocheck
+///|
+let layer = parse_auto(text, name="F.Cu")
+
+///|
+let board = board_from_layers([layer])
+
+///|
+let validation = validate_board(board)
+
+///|
+let dfm = run_dfm(board)
+
+///|
+let report = report(board)
+
+///|
+let graph = connectivity_from_board(board)
+
+///|
+let estimate = assess_fabrication(board)
+~~~
+
+Useful output functions include report_to_json, document_to_json, dfm_to_sarif, dfm_to_csv, board_to_html, to_svg, to_ascii, ConnectivityGraph::to_json, and FabricationAssessment::to_json.
+
+## Architecture
+
+| Area | Modules | Responsibility |
+|---|---|---|
+| Input | lexer, parse, advanced_parser, excellon, aperture, attributes | Decode records and retain diagnostics |
+| Representation | types, primitives, arcs, geometry, outline | Shared board and geometry model |
+| Analysis | dfm, validation, spatial, connectivity, fabrication, metrics | Manufacturing checks and measurements |
+| Delivery | pipeline, reporting, render, benchmark, fixtures | Reports, CLI-oriented processing, and reproducible data |
+
+The parser and analysis layers communicate through Board, Layer, and Shape. This keeps file-format details out of DFM rules and lets integrations use the geometry model directly.
+
+## Format coverage and limits
+
+Supported Gerber records include common parameter blocks, format/unit statements, aperture definitions, D-code selection, D01/D02/D03 operations, regions, and G02/G03 arcs. Supported Excellon records include tool definitions, metric/inch modes, zero suppression, absolute/incremental moves, and G85 slots.
+
+Unknown records are retained in diagnostics where possible. Manufacturing-specific extensions, complex boolean copper pours, full netlist reconstruction, and vendor-specific macro semantics remain outside the current compatibility contract.
+
+## Benchmarks
+
+The checked-in latest native benchmark records a real local run using the medium deterministic fixture and three iterations per operation:
+
+| Benchmark | Input | Ticks | Operations | Shapes |
+|---|---:|---:|---:|---:|
+| Gerber parse | 1,834 bytes | 6 | 867 | 231 |
+| Excellon parse | 530 bytes | 3 | 405 | 192 |
+| DFM check | 106 bytes | 22 | 4,134 | 33 |
+| Render | 106 bytes | 10 | 51,003 | 50,685 |
+
+Runtime ticks are comparison data from the native harness and are not portable wall-clock guarantees. Re-run the exact command on the same machine when comparing changes:
+
+~~~
+moon run --target native cmd/gerberkit -- --bench --fixture=medium
+~~~
+
+## Tests and quality gates
+
+The repository has 92 passing MoonBit tests covering parsing, malformed input, units, modal state, arcs, regions, apertures, Excellon modes, DFM boundaries, reporting, spatial queries, connectivity, fabrication profiles, and deterministic fixtures.
+
+~~~
+moon fmt --check
+moon check --deny-warn
+moon test --deny-warn
+moon check --deny-warn --target all
+moon test --deny-warn --target all
+moon info
+~~~
+
+Generated interfaces are checked with git diff --exit-code. The CI matrix runs Ubuntu, macOS, and Windows, plus native CLI and benchmark smoke tests. The benchmark workflow can also be started independently.
+
+## License
+
+Released under the Apache License 2.0 in LICENSE.
