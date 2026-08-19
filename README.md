@@ -28,7 +28,7 @@ moon run --target native cmd/gerberkit -- --help
 Add the published library to another MoonBit project:
 
 ~~~sh
-moon add Mgk789a/moonbit-gerberkit@0.2.2
+moon add Mgk789a/moonbit-gerberkit@0.2.3
 ~~~
 
 The command-line examples below run from this repository.

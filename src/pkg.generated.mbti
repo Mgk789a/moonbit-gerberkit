@@ -488,6 +488,8 @@ pub fn new_gerber_state() -> GerberState
 
 pub fn new_incremental_document(kind? : StreamDocumentKind, max_record_length? : Int, max_diagnostics? : Int) -> IncrementalDocument
 
+pub fn new_release_bundle(project~ : String, revision~ : String) -> ReleaseBundle
+
 pub fn new_release_manifest(project~ : String, revision~ : String) -> ReleaseManifest
 
 pub fn new_source_index() -> SourceIndex
@@ -645,6 +647,14 @@ pub fn release_artifact_kind_from_path(String) -> ReleaseArtifactKind
 pub fn release_artifact_kind_name(ReleaseArtifactKind) -> String
 
 pub fn release_audit_health(ReleaseAudit) -> Bool
+
+pub fn release_bundle_delta(ReleaseBundle, ReleaseBundle) -> ReleaseBundleDelta
+
+pub fn release_bundle_entry(ReleaseArtifact, Int) -> ReleaseBundleEntry
+
+pub fn release_bundle_from_manifest(ReleaseManifest) -> ReleaseBundle
+
+pub fn release_bundle_status_name(ReleaseBundleStatus) -> String
 
 pub fn release_change_name(ReleaseChangeKind) -> String
 
@@ -2384,6 +2394,59 @@ pub fn ReleaseAudit::to_csv(Self) -> String
 pub fn ReleaseAudit::to_json(Self) -> String
 pub fn ReleaseAudit::to_text(Self) -> String
 pub fn ReleaseAudit::with_changes(Self, Array[ReleaseChange]) -> Self
+
+pub struct ReleaseBundle {
+  project : String
+  revision : String
+  entries : Array[ReleaseBundleEntry]
+  checks : Array[String]
+  notes : Array[String]
+} derive(@debug.Debug)
+pub fn ReleaseBundle::check_count(Self) -> Int
+pub fn ReleaseBundle::contains_path(Self, String) -> Bool
+pub fn ReleaseBundle::entry_count(Self) -> Int
+pub fn ReleaseBundle::find(Self, String) -> ReleaseBundleEntry?
+pub fn ReleaseBundle::fingerprint(Self) -> String
+pub fn ReleaseBundle::has_check(Self, String) -> Bool
+pub fn ReleaseBundle::has_kind(Self, ReleaseArtifactKind) -> Bool
+pub fn ReleaseBundle::is_reproducible(Self) -> Bool
+pub fn ReleaseBundle::is_unique(Self) -> Bool
+pub fn ReleaseBundle::missing_count(Self) -> Int
+pub fn ReleaseBundle::ordered_paths(Self) -> Array[String]
+pub fn ReleaseBundle::present_count(Self) -> Int
+pub fn ReleaseBundle::required_count(Self) -> Int
+pub fn ReleaseBundle::status(Self, ReleasePolicy) -> ReleaseBundleStatus
+pub fn ReleaseBundle::summary(Self, ReleasePolicy) -> String
+pub fn ReleaseBundle::total_bytes(Self) -> Int
+pub fn ReleaseBundle::with_check(Self, String) -> Self
+pub fn ReleaseBundle::with_note(Self, String) -> Self
+
+pub struct ReleaseBundleDelta {
+  added : Int
+  removed : Int
+  modified : Int
+  unchanged : Int
+  previous_fingerprint : String
+  current_fingerprint : String
+} derive(@debug.Debug)
+pub fn ReleaseBundleDelta::change_count(Self) -> Int
+pub fn ReleaseBundleDelta::is_compatible(Self, ReleasePolicy) -> Bool
+
+pub struct ReleaseBundleEntry {
+  path : String
+  kind : ReleaseArtifactKind
+  digest : String
+  bytes : Int
+  required : Bool
+  present : Bool
+  sequence : Int
+} derive(@debug.Debug)
+
+pub enum ReleaseBundleStatus {
+  BundleReady
+  BundleWarning
+  BundleFailure
+} derive(Eq, @debug.Debug)
 
 pub struct ReleaseChange {
   path : String
